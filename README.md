@@ -19,9 +19,11 @@ a full-screen overlay covers every display until the break ends or you skip it.
 </p>
 
 <p align="center">
-  <img src="docs/menu.png" alt="Menu bar popover with timer controls, durations and launch at login" width="280">
-  &nbsp;&nbsp;
-  <img src="docs/break-tip.png" alt="Break screen showing a distributed systems learning card" width="440">
+  <img src="docs/menu.png" alt="Menu bar popover with timer controls, durations and launch at login" width="720">
+</p>
+
+<p align="center">
+  <img src="docs/break-tip.png" alt="Break screen showing a distributed systems learning card" width="720">
 </p>
 
 <sub>Screenshots are rendered from the app's own views by `./screenshots.sh`.</sub>
