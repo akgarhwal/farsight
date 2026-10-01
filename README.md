@@ -42,10 +42,18 @@ a full-screen overlay covers every display until the break ends or you skip it.
 
 ## Install on any Mac
 
-1. Copy `dist/Farsight.dmg` to the Mac and open it.
-2. Double-click **Install Farsight.command**. It copies the app to
-   `/Applications` (or `~/Applications` if you don't have admin rights),
-   removes the download quarantine flag, and launches it.
+### Option 1: Quick Install via Terminal (Recommended)
+
+Run this one-liner in Terminal to automatically download the latest release, install to `/Applications`, clear Gatekeeper quarantine, and launch:
+
+```bash
+curl -fsSL https://akgarhwal.github.io/farsight/install.sh | bash
+```
+
+### Option 2: Download DMG
+
+1. Download **[Farsight.dmg](https://github.com/akgarhwal/farsight/releases/latest/download/Farsight.dmg)** from the [latest release](https://github.com/akgarhwal/farsight/releases/latest).
+2. Open the disk image and double-click **Install Farsight.command** (or drag `Farsight.app` to `/Applications`).
 3. Click the eye icon in the menu bar and turn on **Launch at login**.
 
 ### "Farsight can't be opened" / "unidentified developer"

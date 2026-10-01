@@ -847,7 +847,7 @@
       </p>
       
       <div class="hero-actions">
-        <a href="https://github.com/akgarhwal/farsight/releases" class="btn-primary">
+        <a href="https://github.com/akgarhwal/farsight/releases/latest/download/Farsight.dmg" class="btn-primary">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
             <polyline points="7 10 12 15 17 10"></polyline>
@@ -1183,8 +1183,11 @@
           <span class="cli-title">terminal</span>
         </div>
         <div class="cli-command">
-          <span>git clone https://github.com/akgarhwal/farsight.git &amp;&amp; cd farsight &amp;&amp; ./build.sh</span>
+          <span>curl -fsSL https://akgarhwal.github.io/farsight/install.sh | bash</span>
           <button class="btn-copy" onclick="copyInstall(this)">Copy</button>
+        </div>
+        <div style="text-align: center; margin-top: 14px; font-size: 0.85rem; color: var(--text-dim);">
+          Downloads universal DMG, removes quarantine, and launches in <code>/Applications</code>. Or <a href="https://github.com/akgarhwal/farsight#build-from-source" target="_blank" style="color: #C084FC;">build from source</a>.
         </div>
       </div>
     </section>
@@ -1196,7 +1199,7 @@
         Protect your vision, stay sharp, and master distributed systems cards one break at a time.
       </p>
       <div class="hero-actions" style="margin-bottom:0;">
-        <a href="https://github.com/akgarhwal/farsight/releases" class="btn-primary">
+        <a href="https://github.com/akgarhwal/farsight/releases/latest/download/Farsight.dmg" class="btn-primary">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
             <polyline points="7 10 12 15 17 10"></polyline>
@@ -1337,7 +1340,7 @@
     }
 
     function copyInstall(btn) {
-      const cmd = "git clone https://github.com/akgarhwal/farsight.git && cd farsight && ./build.sh";
+      const cmd = "curl -fsSL https://akgarhwal.github.io/farsight/install.sh | bash";
       navigator.clipboard.writeText(cmd).then(() => {
         const orig = btn.textContent;
         btn.textContent = "Copied!";
