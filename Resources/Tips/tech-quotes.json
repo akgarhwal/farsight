@@ -1,0 +1,557 @@
+{
+  "category": "Tech Quote",
+  "items": [
+    {
+      "text": "Premature optimization is the root of all evil.",
+      "author": "Donald Knuth"
+    },
+    {
+      "text": "Beware of bugs in the above code; I have only proved it correct, not tried it.",
+      "author": "Donald Knuth"
+    },
+    {
+      "text": "Science is what we understand well enough to explain to a computer. Art is everything else we do.",
+      "author": "Donald Knuth"
+    },
+    {
+      "text": "An algorithm must be seen to be believed.",
+      "author": "Donald Knuth"
+    },
+    {
+      "text": "Instead of imagining that our main task is to instruct a computer what to do, let us concentrate rather on explaining to human beings what we want a computer to do.",
+      "author": "Donald Knuth"
+    },
+    {
+      "text": "Computer programming is an art, because it applies accumulated knowledge to the world, because it requires skill and ingenuity, and especially because it produces objects of beauty.",
+      "author": "Donald Knuth"
+    },
+    {
+      "text": "Email is a wonderful thing for people whose role in life is to be on top of things. But not for me; my role is to be on the bottom of things.",
+      "author": "Donald Knuth"
+    },
+    {
+      "text": "Adding manpower to a late software project makes it later.",
+      "author": "Fred Brooks"
+    },
+    {
+      "text": "The bearing of a child takes nine months, no matter how many women are assigned.",
+      "author": "Fred Brooks"
+    },
+    {
+      "text": "Plan to throw one away; you will, anyhow.",
+      "author": "Fred Brooks"
+    },
+    {
+      "text": "Show me your flowcharts and conceal your tables, and I shall continue to be mystified. Show me your tables, and I won't usually need your flowcharts; they'll be obvious.",
+      "author": "Fred Brooks"
+    },
+    {
+      "text": "The programmer, like the poet, works only slightly removed from pure thought-stuff.",
+      "author": "Fred Brooks"
+    },
+    {
+      "text": "Conceptual integrity is the most important consideration in system design.",
+      "author": "Fred Brooks"
+    },
+    {
+      "text": "How does a project get to be a year late? One day at a time.",
+      "author": "Fred Brooks"
+    },
+    {
+      "text": "The hardest single part of building a software system is deciding precisely what to build.",
+      "author": "Fred Brooks"
+    },
+    {
+      "text": "Program testing can be used to show the presence of bugs, but never to show their absence!",
+      "author": "Edsger W. Dijkstra"
+    },
+    {
+      "text": "Simplicity is prerequisite for reliability.",
+      "author": "Edsger W. Dijkstra"
+    },
+    {
+      "text": "The question of whether a computer can think is no more interesting than the question of whether a submarine can swim.",
+      "author": "Edsger W. Dijkstra"
+    },
+    {
+      "text": "The competent programmer is fully aware of the strictly limited size of his own skull; therefore he approaches the programming task in full humility, and among other things he avoids clever tricks like the plague.",
+      "author": "Edsger W. Dijkstra"
+    },
+    {
+      "text": "Simplicity is a great virtue but it requires hard work to achieve it and education to appreciate it. And to make matters worse: complexity sells better.",
+      "author": "Edsger W. Dijkstra"
+    },
+    {
+      "text": "If you want more effective programmers, you will discover that they should not waste their time debugging, they should not introduce the bugs to start with.",
+      "author": "Edsger W. Dijkstra"
+    },
+    {
+      "text": "The use of COBOL cripples the mind; its teaching should, therefore, be regarded as a criminal offence.",
+      "author": "Edsger W. Dijkstra"
+    },
+    {
+      "text": "Besides a mathematical inclination, an exceptionally good mastery of one's native tongue is the most vital asset of a competent programmer.",
+      "author": "Edsger W. Dijkstra"
+    },
+    {
+      "text": "The purpose of abstraction is not to be vague, but to create a new semantic level in which one can be absolutely precise.",
+      "author": "Edsger W. Dijkstra"
+    },
+    {
+      "text": "The art of programming is the art of organizing complexity, of mastering multitude and avoiding its bastard chaos as effectively as possible.",
+      "author": "Edsger W. Dijkstra"
+    },
+    {
+      "text": "How do we convince people that in programming simplicity and clarity - in short: what mathematicians call 'elegance' - are not a dispensable luxury, but a crucial matter that decides between success and failure?",
+      "author": "Edsger W. Dijkstra"
+    },
+    {
+      "text": "There are two ways of constructing a software design: One way is to make it so simple that there are obviously no deficiencies, and the other way is to make it so complicated that there are no obvious deficiencies.",
+      "author": "Tony Hoare"
+    },
+    {
+      "text": "I call it my billion-dollar mistake. It was the invention of the null reference in 1965.",
+      "author": "Tony Hoare"
+    },
+    {
+      "text": "The price of reliability is the pursuit of the utmost simplicity.",
+      "author": "Tony Hoare"
+    },
+    {
+      "text": "Everyone knows that debugging is twice as hard as writing a program in the first place. So if you're as clever as you can be when you write it, how will you ever debug it?",
+      "author": "Brian Kernighan"
+    },
+    {
+      "text": "Controlling complexity is the essence of computer programming.",
+      "author": "Brian Kernighan and P.J. Plauger"
+    },
+    {
+      "text": "The only way to learn a new programming language is by writing programs in it.",
+      "author": "Brian Kernighan and Dennis Ritchie"
+    },
+    {
+      "text": "The most effective debugging tool is still careful thought, coupled with judiciously placed print statements.",
+      "author": "Brian Kernighan"
+    },
+    {
+      "text": "Don't comment bad code - rewrite it.",
+      "author": "Brian Kernighan and P.J. Plauger"
+    },
+    {
+      "text": "Write clearly - don't be too clever.",
+      "author": "Brian Kernighan and P.J. Plauger"
+    },
+    {
+      "text": "The best way to predict the future is to invent it.",
+      "author": "Alan Kay"
+    },
+    {
+      "text": "People who are really serious about software should make their own hardware.",
+      "author": "Alan Kay"
+    },
+    {
+      "text": "Simple things should be simple, complex things should be possible.",
+      "author": "Alan Kay"
+    },
+    {
+      "text": "I invented the term object-oriented, and I can tell you I did not have C++ in mind.",
+      "author": "Alan Kay"
+    },
+    {
+      "text": "Point of view is worth 80 IQ points.",
+      "author": "Alan Kay"
+    },
+    {
+      "text": "The computer revolution hasn't happened yet.",
+      "author": "Alan Kay"
+    },
+    {
+      "text": "The most dangerous phrase in the language is, 'We've always done it this way.'",
+      "author": "Grace Hopper"
+    },
+    {
+      "text": "It's easier to ask forgiveness than it is to get permission.",
+      "author": "Grace Hopper"
+    },
+    {
+      "text": "You manage things; you lead people.",
+      "author": "Grace Hopper"
+    },
+    {
+      "text": "A distributed system is one in which the failure of a computer you didn't even know existed can render your own computer unusable.",
+      "author": "Leslie Lamport"
+    },
+    {
+      "text": "If you're thinking without writing, you only think you're thinking.",
+      "author": "Leslie Lamport"
+    },
+    {
+      "text": "Programs must be written for people to read, and only incidentally for machines to execute.",
+      "author": "Harold Abelson and Gerald Jay Sussman"
+    },
+    {
+      "text": "A language that doesn't affect the way you think about programming is not worth knowing.",
+      "author": "Alan Perlis"
+    },
+    {
+      "text": "Simplicity does not precede complexity, but follows it.",
+      "author": "Alan Perlis"
+    },
+    {
+      "text": "Fools ignore complexity. Pragmatists suffer it. Some can avoid it. Geniuses remove it.",
+      "author": "Alan Perlis"
+    },
+    {
+      "text": "It is easier to write an incorrect program than understand a correct one.",
+      "author": "Alan Perlis"
+    },
+    {
+      "text": "Syntactic sugar causes cancer of the semicolon.",
+      "author": "Alan Perlis"
+    },
+    {
+      "text": "Every program has (at least) two purposes: the one for which it was written, and another for which it wasn't.",
+      "author": "Alan Perlis"
+    },
+    {
+      "text": "Optimization hinders evolution.",
+      "author": "Alan Perlis"
+    },
+    {
+      "text": "If you have a procedure with ten parameters, you probably missed some.",
+      "author": "Alan Perlis"
+    },
+    {
+      "text": "Beware of the Turing tar-pit in which everything is possible but nothing of interest is easy.",
+      "author": "Alan Perlis"
+    },
+    {
+      "text": "A programming language is low level when its programs require attention to the irrelevant.",
+      "author": "Alan Perlis"
+    },
+    {
+      "text": "Every program is a part of some other program and rarely fits.",
+      "author": "Alan Perlis"
+    },
+    {
+      "text": "There will always be things we wish to say in our programs that in all known languages can only be said poorly.",
+      "author": "Alan Perlis"
+    },
+    {
+      "text": "Adapting old programs to fit new machines usually means adapting new machines to behave like old ones.",
+      "author": "Alan Perlis"
+    },
+    {
+      "text": "Any fool can write code that a computer can understand. Good programmers write code that humans can understand.",
+      "author": "Martin Fowler"
+    },
+    {
+      "text": "I'm not a great programmer; I'm just a good programmer with great habits.",
+      "author": "Kent Beck"
+    },
+    {
+      "text": "Optimism is an occupational hazard of programming; feedback is the treatment.",
+      "author": "Kent Beck"
+    },
+    {
+      "text": "To me, legacy code is simply code without tests.",
+      "author": "Michael Feathers"
+    },
+    {
+      "text": "Duplication is far cheaper than the wrong abstraction.",
+      "author": "Sandi Metz"
+    },
+    {
+      "text": "The only way to go fast, is to go well.",
+      "author": "Robert C. Martin"
+    },
+    {
+      "text": "There are only two hard things in Computer Science: cache invalidation and naming things.",
+      "author": "Phil Karlton"
+    },
+    {
+      "text": "Any organization that designs a system (defined broadly) will produce a design whose structure is a copy of the organization's communication structure.",
+      "author": "Melvin Conway"
+    },
+    {
+      "text": "The first 90 percent of the code accounts for the first 90 percent of the development time. The remaining 10 percent of the code accounts for the other 90 percent of the development time.",
+      "author": "Tom Cargill"
+    },
+    {
+      "text": "It always takes longer than you expect, even when you take into account Hofstadter's Law.",
+      "author": "Douglas Hofstadter"
+    },
+    {
+      "text": "A complex system that works is invariably found to have evolved from a simple system that worked.",
+      "author": "John Gall"
+    },
+    {
+      "text": "All problems in computer science can be solved by another level of indirection.",
+      "author": "David Wheeler"
+    },
+    {
+      "text": "With a sufficient number of users of an API, it does not matter what you promise in the contract: all observable behaviors of your system will be depended on by somebody.",
+      "author": "Hyrum Wright"
+    },
+    {
+      "text": "Be conservative in what you do, be liberal in what you accept from others.",
+      "author": "Jon Postel"
+    },
+    {
+      "text": "We reject: kings, presidents and voting. We believe in: rough consensus and running code.",
+      "author": "David D. Clark"
+    },
+    {
+      "text": "If builders built buildings the way programmers wrote programs, then the first woodpecker that came along would destroy civilization.",
+      "author": "Gerald Weinberg"
+    },
+    {
+      "text": "No matter what the problem is, it's always a people problem.",
+      "author": "Gerald Weinberg"
+    },
+    {
+      "text": "Walking on water and developing software from a specification are easy if both are frozen.",
+      "author": "Edward V. Berard"
+    },
+    {
+      "text": "Some people, when confronted with a problem, think 'I know, I'll use regular expressions.' Now they have two problems.",
+      "author": "Jamie Zawinski"
+    },
+    {
+      "text": "Talk is cheap. Show me the code.",
+      "author": "Linus Torvalds"
+    },
+    {
+      "text": "Bad programmers worry about the code. Good programmers worry about data structures and their relationships.",
+      "author": "Linus Torvalds"
+    },
+    {
+      "text": "Most good programmers do programming not because they expect to get paid or get adulation by the public, but because it is fun to program.",
+      "author": "Linus Torvalds"
+    },
+    {
+      "text": "Given enough eyeballs, all bugs are shallow.",
+      "author": "Eric S. Raymond"
+    },
+    {
+      "text": "Every good work of software starts by scratching a developer's personal itch.",
+      "author": "Eric S. Raymond"
+    },
+    {
+      "text": "Release early. Release often. And listen to your customers.",
+      "author": "Eric S. Raymond"
+    },
+    {
+      "text": "Smart data structures and dumb code works a lot better than the other way around.",
+      "author": "Eric S. Raymond"
+    },
+    {
+      "text": "Good programmers know what to write. Great ones know what to rewrite (and reuse).",
+      "author": "Eric S. Raymond"
+    },
+    {
+      "text": "When in doubt, use brute force.",
+      "author": "Ken Thompson"
+    },
+    {
+      "text": "One of my most productive days was throwing away 1000 lines of code.",
+      "author": "Ken Thompson"
+    },
+    {
+      "text": "You can't trust code that you did not totally create yourself.",
+      "author": "Ken Thompson"
+    },
+    {
+      "text": "Write programs that do one thing and do it well. Write programs to work together. Write programs to handle text streams, because that is a universal interface.",
+      "author": "Doug McIlroy"
+    },
+    {
+      "text": "Those who do not understand Unix are condemned to reinvent it, poorly.",
+      "author": "Henry Spencer"
+    },
+    {
+      "text": "Data dominates. If you've chosen the right data structures and organized things well, the algorithms will almost always be self-evident.",
+      "author": "Rob Pike"
+    },
+    {
+      "text": "Fancy algorithms are slow when n is small, and n is usually small.",
+      "author": "Rob Pike"
+    },
+    {
+      "text": "Clear is better than clever.",
+      "author": "Rob Pike"
+    },
+    {
+      "text": "A little copying is better than a little dependency.",
+      "author": "Rob Pike"
+    },
+    {
+      "text": "Don't communicate by sharing memory, share memory by communicating.",
+      "author": "Rob Pike"
+    },
+    {
+      "text": "C makes it easy to shoot yourself in the foot; C++ makes it harder, but when you do it blows your whole leg off.",
+      "author": "Bjarne Stroustrup"
+    },
+    {
+      "text": "There are only two kinds of languages: the ones people complain about and the ones nobody uses.",
+      "author": "Bjarne Stroustrup"
+    },
+    {
+      "text": "Within C++, there is a much smaller and cleaner language struggling to get out.",
+      "author": "Bjarne Stroustrup"
+    },
+    {
+      "text": "We will encourage you to develop the three great virtues of a programmer: laziness, impatience, and hubris.",
+      "author": "Larry Wall"
+    },
+    {
+      "text": "Code is read much more often than it is written.",
+      "author": "Guido van Rossum"
+    },
+    {
+      "text": "Beautiful is better than ugly. Explicit is better than implicit. Simple is better than complex.",
+      "author": "Tim Peters"
+    },
+    {
+      "text": "If the implementation is hard to explain, it's a bad idea. If the implementation is easy to explain, it may be a good idea.",
+      "author": "Tim Peters"
+    },
+    {
+      "text": "Errors should never pass silently. Unless explicitly silenced.",
+      "author": "Tim Peters"
+    },
+    {
+      "text": "In the face of ambiguity, refuse the temptation to guess.",
+      "author": "Tim Peters"
+    },
+    {
+      "text": "It's harder to read code than to write it.",
+      "author": "Joel Spolsky"
+    },
+    {
+      "text": "All non-trivial abstractions, to some degree, are leaky.",
+      "author": "Joel Spolsky"
+    },
+    {
+      "text": "Complexity is anything related to the structure of a software system that makes it hard to understand and modify the system.",
+      "author": "John Ousterhout"
+    },
+    {
+      "text": "Programmers know the benefits of everything and the tradeoffs of nothing.",
+      "author": "Rich Hickey"
+    },
+    {
+      "text": "Every piece of knowledge must have a single, unambiguous, authoritative representation within a system.",
+      "author": "Andy Hunt and Dave Thomas"
+    },
+    {
+      "text": "Don't live with broken windows.",
+      "author": "Andy Hunt and Dave Thomas"
+    },
+    {
+      "text": "Shipping first time code is like going into debt. A little debt speeds development so long as it is paid back promptly with a rewrite.",
+      "author": "Ward Cunningham"
+    },
+    {
+      "text": "Everything fails, all the time.",
+      "author": "Werner Vogels"
+    },
+    {
+      "text": "Security is a process, not a product.",
+      "author": "Bruce Schneier"
+    },
+    {
+      "text": "Anyone, from the most clueless amateur to the best cryptographer, can create an algorithm that he himself can't break.",
+      "author": "Bruce Schneier"
+    },
+    {
+      "text": "The only truly secure system is one that is powered off, cast in a block of concrete and sealed in a lead-lined room with armed guards - and even then I have my doubts.",
+      "author": "Gene Spafford"
+    },
+    {
+      "text": "The most likely way for the world to be destroyed, most experts agree, is by accident. That's where we come in; we're computer professionals. We cause accidents.",
+      "author": "Nathaniel Borenstein"
+    },
+    {
+      "text": "The Analytical Engine weaves algebraical patterns just as the Jacquard-loom weaves flowers and leaves.",
+      "author": "Ada Lovelace"
+    },
+    {
+      "text": "The Analytical Engine has no pretensions whatever to originate anything. It can do whatever we know how to order it to perform.",
+      "author": "Ada Lovelace"
+    },
+    {
+      "text": "We can only see a short distance ahead, but we can see plenty there that needs to be done.",
+      "author": "Alan Turing"
+    },
+    {
+      "text": "Anyone who considers arithmetical methods of producing random digits is, of course, in a state of sin.",
+      "author": "John von Neumann"
+    },
+    {
+      "text": "For a successful technology, reality must take precedence over public relations, for nature cannot be fooled.",
+      "author": "Richard Feynman"
+    },
+    {
+      "text": "Any sufficiently advanced technology is indistinguishable from magic.",
+      "author": "Arthur C. Clarke"
+    },
+    {
+      "text": "When a distinguished but elderly scientist states that something is possible, he is almost certainly right. When he states that something is impossible, he is very probably wrong.",
+      "author": "Arthur C. Clarke"
+    },
+    {
+      "text": "The future is already here - it's just not very evenly distributed.",
+      "author": "William Gibson"
+    },
+    {
+      "text": "Technology is neither good nor bad; nor is it neutral.",
+      "author": "Melvin Kranzberg"
+    },
+    {
+      "text": "The most profound technologies are those that disappear. They weave themselves into the fabric of everyday life until they are indistinguishable from it.",
+      "author": "Mark Weiser"
+    },
+    {
+      "text": "Software is eating the world.",
+      "author": "Marc Andreessen"
+    },
+    {
+      "text": "We are stuck with technology when what we really want is just stuff that works.",
+      "author": "Douglas Adams"
+    },
+    {
+      "text": "The power of the Web is in its universality. Access by everyone regardless of disability is an essential aspect.",
+      "author": "Tim Berners-Lee"
+    },
+    {
+      "text": "Getting information off the Internet is like taking a drink from a fire hydrant.",
+      "author": "Mitch Kapor"
+    },
+    {
+      "text": "Free software is a matter of liberty, not price. To understand the concept, you should think of 'free' as in 'free speech,' not as in 'free beer.'",
+      "author": "Richard Stallman"
+    },
+    {
+      "text": "Real artists ship.",
+      "author": "Steve Jobs"
+    },
+    {
+      "text": "Design is not just what it looks like and feels like. Design is how it works.",
+      "author": "Steve Jobs"
+    },
+    {
+      "text": "As far as the customer is concerned, the interface is the product.",
+      "author": "Jef Raskin"
+    },
+    {
+      "text": "The nice thing about standards is that you have so many to choose from.",
+      "author": "Andrew S. Tanenbaum"
+    },
+    {
+      "text": "Perfection is achieved, not when there is nothing more to add, but when there is nothing left to take away.",
+      "author": "Antoine de Saint-Exupery"
+    }
+  ]
+}

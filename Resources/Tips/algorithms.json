@@ -1,0 +1,425 @@
+{
+  "category": "Algorithms",
+  "items": [
+    {
+      "text": "Hash map get and put are O(1) on average but O(n) worst case when keys collide into one bucket; Java 8+ HashMap caps that at O(log n) by turning long buckets into trees."
+    },
+    {
+      "text": "Appending to a dynamic array is amortized O(1): capacity doubles when full, so n appends copy at most about 2n elements in total."
+    },
+    {
+      "text": "Inserting or deleting at the front of an array is O(n) because every element shifts; a deque (ring buffer) gives O(1) operations at both ends."
+    },
+    {
+      "text": "A balanced BST gives O(log n) search, insert, delete and in-order iteration; a hash table is faster on average but loses key ordering."
+    },
+    {
+      "text": "Linked lists offer O(1) insert and delete at a known node but O(n) access by index, and their poor cache locality often makes them slower than arrays."
+    },
+    {
+      "text": "log2 of one billion is about 30, so binary search over a billion sorted items needs at most around 30 comparisons."
+    },
+    {
+      "text": "Rule of thumb: about 10^8 simple operations per second. For n = 10^5, O(n log n) is instant, but O(n^2) = 10^10 operations will time out."
+    },
+    {
+      "text": "Comparison sorting has an Omega(n log n) lower bound: there are n! possible orderings, and a decision tree needs log2(n!), about n log n, levels to tell them apart."
+    },
+    {
+      "text": "Building a heap bottom-up (heapify) is O(n), not O(n log n), because most nodes sit near the bottom and sift down only a few levels."
+    },
+    {
+      "text": "In Python, 'x in list' is O(n) but 'x in set' is O(1) on average; converting a list to a set first can turn an O(n^2) loop into O(n)."
+    },
+    {
+      "text": "Quicksort averages O(n log n) but degrades to O(n^2) on sorted input with a naive first or last pivot; random or median-of-three pivots avoid this."
+    },
+    {
+      "text": "Merge sort is O(n log n) in every case and stable, but the array version needs O(n) extra memory for merging."
+    },
+    {
+      "text": "Heapsort is O(n log n) worst case and in place with O(1) extra space, but it is not stable and has poor cache behavior."
+    },
+    {
+      "text": "A stable sort keeps equal elements in their original order, so sorting by a secondary key and then by the primary key yields a correct multi-key sort."
+    },
+    {
+      "text": "Counting sort runs in O(n + k) where k is the key range; great for small integer ranges like ages or exam scores, useless for arbitrary 64-bit keys."
+    },
+    {
+      "text": "LSD radix sort sorts integers digit by digit with a stable counting sort per digit, running in O(d * (n + b)) for d digits in base b."
+    },
+    {
+      "text": "Timsort (Python, Java for objects) detects existing sorted runs and merges them: stable, O(n log n) worst case, and O(n) on already sorted data."
+    },
+    {
+      "text": "Introsort (typical C++ std::sort) starts as quicksort, switches to heapsort when recursion gets too deep, and uses insertion sort for tiny ranges."
+    },
+    {
+      "text": "Insertion sort is O(n^2) but very fast on small or nearly sorted arrays, which is why hybrid sorts use it for partitions under about 16 to 32 elements."
+    },
+    {
+      "text": "Quickselect finds the k-th smallest element in O(n) average time by partitioning like quicksort but recursing into only one side."
+    },
+    {
+      "text": "External merge sort handles data larger than RAM: sort memory-sized chunks and write them to disk, then k-way merge the chunks with a min-heap."
+    },
+    {
+      "text": "Count inversions in O(n log n) during merge sort: whenever you take an element from the right half, add the number of elements left in the left half."
+    },
+    {
+      "text": "Binary search: compute mid as lo + (hi - lo) / 2 instead of (lo + hi) / 2 to avoid integer overflow in fixed-width languages."
+    },
+    {
+      "text": "Lower bound (first index with a[i] >= target) on a half-open range [lo, hi): if a[mid] < target then lo = mid + 1, else hi = mid."
+    },
+    {
+      "text": "Binary search on the answer: if feasibility is monotonic (works for x implies works for x + 1), binary search x itself, e.g. the minimum ship capacity."
+    },
+    {
+      "text": "In a rotated sorted array, at least one half around mid is always sorted; check whether the target lies inside that half to choose a side."
+    },
+    {
+      "text": "Find a peak element in O(log n): if a[mid] < a[mid + 1], a peak exists to the right; otherwise one exists at mid or to its left."
+    },
+    {
+      "text": "Python's bisect_left and bisect_right return the first index >= x and > x; their difference counts the occurrences of x in a sorted list."
+    },
+    {
+      "text": "Exponential search doubles an index (1, 2, 4, 8, ...) until it passes the target, then binary searches that range: O(log i) for target position i."
+    },
+    {
+      "text": "Search a matrix sorted by rows and columns in O(m + n): start at the top-right corner, move left if the value is too big, down if too small."
+    },
+    {
+      "text": "Two Sum on a sorted array: start pointers at both ends, move left forward if the sum is too small and right backward if too big. O(n) time, O(1) space."
+    },
+    {
+      "text": "3Sum in O(n^2): sort, fix one element, then run a two-pointer scan on the rest; skip equal neighbors to avoid duplicate triplets."
+    },
+    {
+      "text": "Floyd's cycle detection: a slow pointer moving 1 step and a fast pointer moving 2 steps will meet inside a cycle if one exists, using O(1) memory."
+    },
+    {
+      "text": "After Floyd's slow and fast pointers meet, reset one to the head and advance both 1 step at a time; they meet again at the start of the cycle."
+    },
+    {
+      "text": "Container With Most Water: always move the pointer at the shorter line inward, since moving the taller one can never increase the area."
+    },
+    {
+      "text": "Trapping Rain Water in O(1) space: two pointers track leftMax and rightMax, and you process the side with the smaller max, since it bounds the water there."
+    },
+    {
+      "text": "Sliding window: grow the right edge to add elements and shrink the left edge while the window is invalid; each element enters and leaves once, so O(n)."
+    },
+    {
+      "text": "Longest substring without repeating characters: store each char's last index and move left to max(left, last[c] + 1). One pass, O(n)."
+    },
+    {
+      "text": "Minimum window substring: count the needed characters, track how many are satisfied, and shrink from the left whenever all of them are covered."
+    },
+    {
+      "text": "Sliding windows solve 'longest subarray with sum <= k' only when all numbers are nonnegative; negatives break the shrink rule, so switch to prefix sums."
+    },
+    {
+      "text": "Exactly K distinct = atMost(K) - atMost(K - 1): turning an exact-count window problem into two at-most windows makes it straightforward."
+    },
+    {
+      "text": "Prefix sums: with P[i] = a[0] + ... + a[i-1], the sum of a[l..r] is P[r+1] - P[l], answered in O(1) after O(n) setup."
+    },
+    {
+      "text": "Count subarrays summing to k in O(n): keep a hash map of prefix-sum counts and add count[prefix - k] at each step. Seed it with count[0] = 1."
+    },
+    {
+      "text": "2D prefix sums: rectangle sum = P[r2][c2] - P[r1][c2] - P[r2][c1] + P[r1][c1] with half-open bounds, by inclusion-exclusion."
+    },
+    {
+      "text": "Difference array: to add v to a[l..r], do d[l] += v and d[r+1] -= v; a single prefix sum at the end applies all q range updates in O(n + q)."
+    },
+    {
+      "text": "Next greater element in O(n): keep a stack of indices with decreasing values; pop while the current value is larger and record it as their answer."
+    },
+    {
+      "text": "Largest rectangle in a histogram uses an increasing monotonic stack: when a bar is popped, its width spans from the new stack top to the current index."
+    },
+    {
+      "text": "Sliding window maximum in O(n): keep a deque of indices with decreasing values; pop the back while smaller, and pop the front once it leaves the window."
+    },
+    {
+      "text": "A hash table stays fast by bounding its load factor; Java's HashMap resizes at 0.75 full so chains stay short and operations stay O(1) on average."
+    },
+    {
+      "text": "Open addressing stores entries in the array itself and probes on collision; linear probing is cache friendly but suffers from primary clustering."
+    },
+    {
+      "text": "Deleting from an open-addressing hash table needs tombstones; simply emptying the slot would break probe sequences for keys inserted after it."
+    },
+    {
+      "text": "Group anagrams by a canonical key: the sorted string, or a tuple of 26 letter counts to skip the O(L log L) sort."
+    },
+    {
+      "text": "Consistent hashing places servers and keys on a ring, so adding or removing one of n servers remaps only about 1/n of the keys."
+    },
+    {
+      "text": "Hash-flooding attacks craft colliding keys to make hash tables O(n) per operation, which is why Python and Rust use keyed hashes like SipHash."
+    },
+    {
+      "text": "Top K largest of n items: keep a min-heap of size k and pop whenever it exceeds k. O(n log k) time and O(k) memory, ideal for streams."
+    },
+    {
+      "text": "Running median: a max-heap for the lower half and a min-heap for the upper half, kept within one element in size; the median sits at the tops."
+    },
+    {
+      "text": "Merge k sorted lists in O(N log k): push each list's head into a min-heap, pop the smallest, then push the next element from that list."
+    },
+    {
+      "text": "Binary heap as an array: the children of index i are 2i + 1 and 2i + 2, and its parent is (i - 1) / 2. No pointers needed."
+    },
+    {
+      "text": "Most binary heaps lack decrease-key, so Dijkstra implementations push duplicate entries and skip stale ones when popped (lazy deletion)."
+    },
+    {
+      "text": "An in-order traversal of a BST visits keys in sorted order, which makes 'k-th smallest element' a simple in-order walk that stops at k."
+    },
+    {
+      "text": "Validate a BST by passing (min, max) bounds down the recursion; comparing each node only with its direct children misses deeper violations."
+    },
+    {
+      "text": "A BST built by inserting sorted input degenerates into a linked list with O(n) operations; self-balancing trees keep height O(log n)."
+    },
+    {
+      "text": "AVL trees keep sibling subtree heights within 1, giving slightly faster lookups; red-black trees allow height up to 2 log2(n + 1) but rotate less on writes."
+    },
+    {
+      "text": "Red-black trees back Java's TreeMap and typical C++ std::map: ordered keys, O(log n) operations, and floor or ceiling queries."
+    },
+    {
+      "text": "B-trees pack many keys per node so a lookup touches few disk pages; with a fanout of 100, three levels already index about a million keys."
+    },
+    {
+      "text": "B+ trees keep all values in leaves linked in key order, making range scans fast; that is why most database indexes use them."
+    },
+    {
+      "text": "A trie looks up a word or prefix in O(L) for key length L, no matter how many words it stores, which makes it ideal for autocomplete."
+    },
+    {
+      "text": "Segment tree: O(log n) range queries (sum, min, max) and point updates in about 4n memory; lazy propagation adds O(log n) range updates."
+    },
+    {
+      "text": "Fenwick tree (BIT): prefix sums and point updates in O(log n) with an array of n + 1 values, stepping with i += i & -i to update and i -= i & -i to query."
+    },
+    {
+      "text": "Lowest common ancestor in a binary tree: recurse into both children; if both calls return non-null, the current node is the LCA."
+    },
+    {
+      "text": "Tree diameter: the longest path through a node is leftHeight + rightHeight, so track the max of that while computing heights in a single DFS."
+    },
+    {
+      "text": "BFS finds shortest paths in unweighted graphs in O(V + E); DFS does not, even though it visits the same nodes."
+    },
+    {
+      "text": "0-1 BFS: when edge weights are only 0 or 1, use a deque, pushing 0-weight neighbors to the front and 1-weight ones to the back. O(V + E)."
+    },
+    {
+      "text": "Dijkstra with a binary heap runs in O((V + E) log V) but requires nonnegative edge weights; a single negative edge can produce wrong answers."
+    },
+    {
+      "text": "Bellman-Ford relaxes every edge V - 1 times in O(VE); if one more pass still shortens a distance, the graph has a reachable negative cycle."
+    },
+    {
+      "text": "A* is Dijkstra ordered by f = g + h; an admissible heuristic h (one that never overestimates) guarantees an optimal path, and h = 0 is plain Dijkstra."
+    },
+    {
+      "text": "Kahn's topological sort: repeatedly remove nodes with in-degree 0; if some nodes are never removed, the graph contains a cycle."
+    },
+    {
+      "text": "DFS topological sort outputs nodes in reverse post-order; reaching a node that is still on the recursion stack (a back edge) means there is a cycle."
+    },
+    {
+      "text": "Union-Find with path compression and union by rank does each operation in O(alpha(n)) amortized, where alpha(n) is below 5 for any practical n."
+    },
+    {
+      "text": "Kruskal's MST: sort edges by weight and add each one unless Union-Find says its endpoints are already connected. O(E log E)."
+    },
+    {
+      "text": "Prim's MST grows a single tree, always adding the cheapest edge leaving it: O(E log V) with a binary heap, or O(V^2) with an array for very dense graphs."
+    },
+    {
+      "text": "The cut property justifies Kruskal and Prim: the lightest edge crossing any cut of the graph belongs to some minimum spanning tree."
+    },
+    {
+      "text": "Strongly connected components: Tarjan's algorithm finds them all in one DFS using low-link values; Kosaraju uses two DFS passes, one on the reversed graph."
+    },
+    {
+      "text": "Collapsing each strongly connected component into one node always yields a DAG, so many directed-graph problems become DP in topological order."
+    },
+    {
+      "text": "Floyd-Warshall computes all-pairs shortest paths in O(V^3) with three nested loops; the intermediate-vertex loop k must be the outermost."
+    },
+    {
+      "text": "Bipartite check: 2-color the graph with BFS or DFS; an edge between two nodes of the same color reveals an odd cycle, so it is not bipartite."
+    },
+    {
+      "text": "Grid problems are graphs: each cell is a node with up to 4 neighbors, so counting islands is counting connected components with BFS or DFS."
+    },
+    {
+      "text": "Multi-source BFS: enqueue every source at distance 0 up front to get each cell's distance to its nearest source in a single O(V + E) pass."
+    },
+    {
+      "text": "Mark nodes visited when you enqueue them in BFS, not when you dequeue them; otherwise the same node can be added to the queue many times."
+    },
+    {
+      "text": "Shortest paths in a DAG work even with negative weights: relax edges in topological order for O(V + E), no Dijkstra needed."
+    },
+    {
+      "text": "Dynamic programming fits problems with optimal substructure and overlapping subproblems: define the state, the transition, and the base cases."
+    },
+    {
+      "text": "Memoization (top-down) computes only the states you actually reach; tabulation (bottom-up) avoids recursion limits and makes space optimization easy."
+    },
+    {
+      "text": "0/1 knapsack in a 1D array: loop capacity from high to low so each item is used at most once; looping low to high gives unbounded knapsack instead."
+    },
+    {
+      "text": "Longest increasing subsequence in O(n log n): tails[i] holds the smallest tail of any increasing subsequence of length i + 1; binary search each value's slot."
+    },
+    {
+      "text": "LCS: dp[i][j] = dp[i-1][j-1] + 1 if the characters match, else max(dp[i-1][j], dp[i][j-1]). O(mn) time, O(min(m, n)) space with rolling rows."
+    },
+    {
+      "text": "Edit distance: dp[i][j] = dp[i-1][j-1] if the chars match, else 1 + min(delete dp[i-1][j], insert dp[i][j-1], replace dp[i-1][j-1])."
+    },
+    {
+      "text": "Interval DP (matrix chain, burst balloons): dp[i][j] over subarrays, filled by increasing length while trying every split point k. Usually O(n^3)."
+    },
+    {
+      "text": "When a DP row depends only on the previous row, keep just two rows (or one), cutting memory from O(nm) to O(m)."
+    },
+    {
+      "text": "Coin change (fewest coins) is unbounded knapsack: dp[x] = min(dp[x], dp[x - coin] + 1). Greedy fails for coins {1, 3, 4} and target 6."
+    },
+    {
+      "text": "Bitmask DP handles subsets of up to about 20 items: TSP with dp[mask][last] runs in O(2^n * n^2) instead of trying all n! routes."
+    },
+    {
+      "text": "Kadane's algorithm finds the maximum subarray sum in O(n): cur = max(x, cur + x) and best = max(best, cur) at each element."
+    },
+    {
+      "text": "Longest palindromic substring: expand around each of the 2n - 1 centers for O(n^2) time and O(1) space; Manacher's algorithm does it in O(n)."
+    },
+    {
+      "text": "Knapsack's O(nW) is pseudo-polynomial: polynomial in the value of W, but exponential in the number of bits needed to write W down."
+    },
+    {
+      "text": "Interval scheduling: to fit the most non-overlapping intervals, always pick the one that ends earliest; an exchange argument proves it optimal."
+    },
+    {
+      "text": "Exchange argument: to prove a greedy choice, take any optimal solution and show that swapping in the greedy choice never makes it worse."
+    },
+    {
+      "text": "Minimum meeting rooms: sort meetings by start and keep a min-heap of end times; the largest heap size reached is the number of rooms needed."
+    },
+    {
+      "text": "Huffman coding repeatedly merges the two least frequent symbols, and this greedy process yields an optimal prefix-free code."
+    },
+    {
+      "text": "Fractional knapsack is solved greedily by value-to-weight ratio, but 0/1 knapsack is not; greedy fails once items cannot be split."
+    },
+    {
+      "text": "Jump Game: track the farthest reachable index while scanning; if the current index ever exceeds it, the end is unreachable. O(n)."
+    },
+    {
+      "text": "Backtracking template: choose, recurse, un-choose. Prune as early as possible when a partial solution can no longer lead to a valid answer."
+    },
+    {
+      "text": "Know your search spaces: 20 items have 2^20 (about a million) subsets but 20! (about 2.4 * 10^18) permutations."
+    },
+    {
+      "text": "N-Queens prunes quickly by tracking used columns and both diagonals in sets: r - c identifies one diagonal and r + c the other."
+    },
+    {
+      "text": "To avoid duplicate combinations when the input has repeats, sort first and skip nums[i] when i > start and nums[i] == nums[i-1]."
+    },
+    {
+      "text": "x & (x - 1) clears the lowest set bit, so x is a power of two exactly when x > 0 and x & (x - 1) == 0."
+    },
+    {
+      "text": "x & -x isolates the lowest set bit in two's complement; Fenwick trees use it to jump between nodes."
+    },
+    {
+      "text": "XOR all the numbers to find the single element that appears once when every other appears twice, since a ^ a = 0 and a ^ 0 = a."
+    },
+    {
+      "text": "Kernighan's popcount: repeat x &= x - 1 until x is 0; the number of iterations equals the number of set bits."
+    },
+    {
+      "text": "Enumerate all non-empty submasks of mask with for (s = mask; s > 0; s = (s - 1) & mask); summed over all masks this is O(3^n)."
+    },
+    {
+      "text": "With 32-bit ints, 1 << 31 hits the sign bit and 1 << 32 is undefined in C (Java wraps it to 1); use 1L << k in Java or 1ULL << k in C."
+    },
+    {
+      "text": "A Bloom filter answers 'maybe present' or 'definitely absent' with k hashes over a bit array: false positives are possible, false negatives are not."
+    },
+    {
+      "text": "Bloom filter sizing: about 10 bits per element with 7 hash functions gives roughly a 1% false-positive rate."
+    },
+    {
+      "text": "HyperLogLog estimates distinct counts from the longest runs of leading zeros in hashes; Redis uses 12 KB per key for about 0.81% standard error."
+    },
+    {
+      "text": "Count-Min sketch estimates frequencies with d rows of w counters and takes the minimum across rows; it may overestimate but never underestimates."
+    },
+    {
+      "text": "Reservoir sampling keeps k uniform random items from a stream of unknown length: keep the first k, then item i replaces a random slot with probability k/i."
+    },
+    {
+      "text": "Skip lists stack sorted linked lists, promoting each node to higher levels at random, for expected O(log n) search; Redis sorted sets use them."
+    },
+    {
+      "text": "Fisher-Yates shuffle: for i from n - 1 down to 1, swap a[i] with a[rand(0..i)]; swapping with rand(0..n-1) every time produces a biased shuffle."
+    },
+    {
+      "text": "KMP precomputes a failure table (longest proper prefix that is also a suffix) so matching never steps backward in the text: O(n + m)."
+    },
+    {
+      "text": "Rabin-Karp compares a rolling hash of each text window to the pattern's hash in O(1) per shift, verifying characters only on a hash match."
+    },
+    {
+      "text": "Z-algorithm computes Z[i], the longest prefix match starting at i, in O(n); to search, build it on pattern + '$' + text and look for Z[i] == m."
+    },
+    {
+      "text": "Aho-Corasick adds failure links to a trie to match many patterns at once in O(text length + total pattern length + matches)."
+    },
+    {
+      "text": "Accounting method: charge each cheap operation a little extra credit, and show the saved credit always pays for the occasional expensive one."
+    },
+    {
+      "text": "Queue from two stacks: push onto 'in', pop from 'out', and refill 'out' from 'in' only when it is empty. Each element moves once, so O(1) amortized."
+    },
+    {
+      "text": "Amortized is not average case: amortized O(1) is a guarantee over any sequence of operations, while average case depends on the input distribution."
+    },
+    {
+      "text": "Interview heuristic: sorted input suggests binary search or two pointers, 'top k' suggests a heap, and 'all combinations' suggests backtracking."
+    },
+    {
+      "text": "Read constraints as hints: n up to 10^5 rules out O(n^2), n <= 20 invites O(2^n), and n <= 10 allows O(n!)."
+    },
+    {
+      "text": "Say the brute force first: it gives you a correct baseline and its complexity, and often reveals exactly which step to optimize."
+    },
+    {
+      "text": "Need fast lookup of 'what have I seen so far'? Reach for a hash map; many O(n^2) pair searches become O(n) this way."
+    },
+    {
+      "text": "Stuck on a tree or graph problem? Decide exactly what each recursive call returns to its parent; that definition usually unlocks the solution."
+    },
+    {
+      "text": "Python's default recursion limit is 1000, so recursive DFS on a long path crashes; use an explicit stack or raise the limit with care."
+    },
+    {
+      "text": "Dry-run your solution on edge cases before declaring it done: empty input, one element, all duplicates, negatives, and the maximum size."
+    }
+  ]
+}

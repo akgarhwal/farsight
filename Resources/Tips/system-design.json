@@ -1,0 +1,485 @@
+{
+  "category": "System Design",
+  "items": [
+    {
+      "text": "Vertical vs horizontal scaling: scaling up buys a bigger box with a hard ceiling and a single point of failure; scaling out adds machines but forces you to handle partitioning and coordination."
+    },
+    {
+      "text": "Stateless services scale horizontally because any instance can serve any request. Push session state to a shared store (Redis, a DB) or into a signed token."
+    },
+    {
+      "text": "Amdahl's law: if 10% of a workload is serial, no number of parallel workers can make it more than 10x faster."
+    },
+    {
+      "text": "Little's law: concurrency = throughput x latency. At 1,000 req/s and 200 ms latency, about 200 requests are in flight at any moment."
+    },
+    {
+      "text": "Autoscaling lag: new instances take minutes to boot and warm up, so scale on leading signals (queue depth, CPU trend) and keep headroom for sudden spikes."
+    },
+    {
+      "text": "Utilization vs latency: queueing delay explodes near saturation. In an M/M/1 queue at 90% utilization, requests wait about 9x the service time before being served."
+    },
+    {
+      "text": "Cell-based architecture: split the fleet into independent cells that each serve a slice of customers, so a bad deploy or poison request only hurts one cell."
+    },
+    {
+      "text": "L4 vs L7 load balancing: L4 routes by IP and port, fast and protocol-agnostic; L7 parses HTTP, so it can route by path, header or cookie and terminate TLS."
+    },
+    {
+      "text": "Round robin assumes all requests cost the same; least-connections adapts much better when request durations vary widely."
+    },
+    {
+      "text": "Power of two choices: pick two random backends and send the request to the less loaded one. It nearly matches global least-loaded without any global state."
+    },
+    {
+      "text": "Sticky sessions pin a user to one backend. They simplify stateful apps but create hot spots, and users lose their session when that node dies."
+    },
+    {
+      "text": "Health checks: active checks probe endpoints on a timer; passive checks eject backends after real request errors. Using both catches crashes and gray failures."
+    },
+    {
+      "text": "DNS load balancing is cheap but coarse: clients and resolvers cache records, sometimes beyond the TTL, so DNS-based failover can take minutes."
+    },
+    {
+      "text": "Anycast: the same IP is announced from many locations and BGP routes each user to the nearest one. CDNs and DNS providers use it for latency and DDoS absorption."
+    },
+    {
+      "text": "Cache-aside (lazy loading): the app checks the cache, and on a miss reads the DB and fills the cache. Simple and resilient, but first reads are slow and data can go stale."
+    },
+    {
+      "text": "Write-through cache: every write updates cache and DB synchronously. Reads stay fresh, but writes get slower and the cache fills with data nobody reads."
+    },
+    {
+      "text": "Write-back (write-behind) cache: writes land in the cache and flush to the DB asynchronously. Very fast writes, but a cache crash before the flush loses data."
+    },
+    {
+      "text": "Write-around cache: writes go straight to the DB, skipping the cache. Avoids polluting it with write-once data, but the next read of that key is a guaranteed miss."
+    },
+    {
+      "text": "Invalidate by deleting the cache key on update rather than setting the new value; racing writers that set values can leave the older one in the cache."
+    },
+    {
+      "text": "Cache stampede (thundering herd): a hot key expires and thousands of requests hit the DB at once. Fix it with a per-key lock or single-flight so only one caller recomputes."
+    },
+    {
+      "text": "TTL jitter: add random spread to expirations (e.g., 300 s +/- 10%) so keys cached at the same moment don't all expire, and miss, at the same moment."
+    },
+    {
+      "text": "Stale-while-revalidate: serve the expired value immediately and refresh it in the background, trading a moment of staleness for steady latency."
+    },
+    {
+      "text": "LRU eviction drops the least recently used item. Great for recency-heavy workloads, but a single large scan can flush the entire hot set."
+    },
+    {
+      "text": "LFU eviction drops the least frequently used item. It keeps long-term favorites, but needs aging or decay so once-hot keys don't squat forever."
+    },
+    {
+      "text": "Negative caching: briefly cache 'not found' results, or bugs and attackers querying nonexistent keys will bypass the cache and hammer the database."
+    },
+    {
+      "text": "Hot key problem: one key with huge traffic overloads the single cache shard that owns it. Replicate it across shards or add a small in-process cache in front."
+    },
+    {
+      "text": "Cache hit ratio math: going from 90% to 99% hits cuts database load 10x, because misses fall from 10% to 1% of requests."
+    },
+    {
+      "text": "HTTP caching: Cache-Control max-age sets freshness; an ETag with If-None-Match lets clients revalidate and receive a tiny 304 Not Modified instead of the full body."
+    },
+    {
+      "text": "CDN: edge servers near users serve static and cacheable content, cutting latency and origin load; the origin only sees cache misses."
+    },
+    {
+      "text": "Push vs pull CDN: push uploads content ahead of time (good for large, rarely changing files); pull fetches from origin on the first miss (simpler, first user pays)."
+    },
+    {
+      "text": "Cache busting: put a content hash in asset filenames (app.3f9a1c.js) so files can be cached forever and a deploy takes effect instantly via new URLs."
+    },
+    {
+      "text": "Origin shield: a mid-tier CDN cache in front of the origin collapses misses from many edge POPs into a single origin request."
+    },
+    {
+      "text": "B-tree index: turns an O(n) full table scan into an O(log n) lookup, and supports range queries and ORDER BY because keys are kept sorted."
+    },
+    {
+      "text": "Every index speeds up some reads but slows every write, because each INSERT or UPDATE must also maintain all indexes on that table."
+    },
+    {
+      "text": "Composite index on (a, b, c) serves filters on a, a+b, or a+b+c, but not on b alone. This is the leftmost-prefix rule."
+    },
+    {
+      "text": "Covering index: when the index holds every column a query needs, the database answers from the index alone without touching table rows."
+    },
+    {
+      "text": "Random UUIDv4 primary keys scatter inserts across a B-tree, causing page splits and cache misses; time-ordered IDs (UUIDv7, ULID, Snowflake) append at the right edge."
+    },
+    {
+      "text": "Connection pooling: DB connections are expensive (Postgres forks a process per connection), so a pool of a few dozen busy connections beats thousands of idle ones."
+    },
+    {
+      "text": "Replication lag: async replicas are usually milliseconds behind but can fall minutes behind under heavy writes or long queries. Monitor lag and pull slow replicas from rotation."
+    },
+    {
+      "text": "Sync vs async replication: sync waits for a replica ack (no data loss on failover, higher latency); async returns at once (fast, but recent writes can vanish on failover)."
+    },
+    {
+      "text": "Hash vs range sharding: hashing spreads load evenly but sends range queries to every shard; range sharding keeps ranges local but risks hot shards on sequential keys."
+    },
+    {
+      "text": "Shard key choice is nearly permanent: pick a key with high cardinality, even distribution, and presence in most queries, or every query becomes scatter-gather."
+    },
+    {
+      "text": "Celebrity problem: sharding by user_id puts all of a celebrity's traffic on one shard. Split hot entities further or give them special handling."
+    },
+    {
+      "text": "Cross-shard joins and transactions are expensive. Co-locate related data (e.g., all of a tenant's rows on one shard) so most queries touch a single shard."
+    },
+    {
+      "text": "Resharding trick: pre-split into many logical shards (e.g., 4096) mapped onto fewer physical nodes, so growth means moving whole logical shards, not rehashing keys."
+    },
+    {
+      "text": "SQL vs NoSQL: relational DBs give joins, constraints and multi-row ACID transactions; many NoSQL stores trade those for easier horizontal scaling and flexible schemas."
+    },
+    {
+      "text": "Isolation levels: Read Committed prevents dirty reads, Repeatable Read also prevents non-repeatable reads, and Serializable prevents all anomalies, including write skew."
+    },
+    {
+      "text": "Write skew: two doctors each check that someone else is on call, then both go off call. Snapshot isolation allows it; serializable isolation or explicit locks prevent it."
+    },
+    {
+      "text": "MVCC: readers see a consistent snapshot while writers create new row versions, so reads never block writes. Old versions need garbage collection, like Postgres VACUUM."
+    },
+    {
+      "text": "Optimistic locking: keep a version column and run UPDATE ... WHERE id = ? AND version = N. If zero rows change, someone else won; reload and retry."
+    },
+    {
+      "text": "Write-ahead log (WAL): changes are appended and fsynced to a log before data pages are modified, so after a crash the database recovers by replaying the log."
+    },
+    {
+      "text": "CQRS: separate the write model from one or more read models so each can be optimized independently; read models are usually eventually consistent."
+    },
+    {
+      "text": "Event sourcing: store every state change as an immutable event and derive current state by replaying them. Full audit history, but harder queries and schema evolution."
+    },
+    {
+      "text": "Online schema migration uses expand/contract: add the new column, dual-write, backfill, switch reads, and only then drop the old column in a later deploy."
+    },
+    {
+      "text": "Change Data Capture (CDC): tail the database's replication log (e.g., Debezium reading the Postgres WAL) to stream row changes to caches, search and warehouses."
+    },
+    {
+      "text": "Queue vs pub/sub: a queue delivers each message to one consumer (work distribution); pub/sub delivers each message to every subscriber (broadcast)."
+    },
+    {
+      "text": "Queue-based load leveling: producers keep writing at peak while consumers drain at a steady rate, so bursts become backlog instead of outages."
+    },
+    {
+      "text": "Visibility timeout (SQS): a received message is hidden, not deleted. If the consumer doesn't delete it before the timeout, it reappears for another consumer."
+    },
+    {
+      "text": "Dead letter queue: after N failed deliveries, move the message aside so one poison message can't block the queue or loop forever."
+    },
+    {
+      "text": "Kafka vs RabbitMQ: Kafka is a replayable, partitioned log where consumers track their own offsets; RabbitMQ is a broker that routes messages and deletes them once acked."
+    },
+    {
+      "text": "Ordering is usually per partition, not global. To keep one user's events in order, use user_id as the partition key."
+    },
+    {
+      "text": "Consumer parallelism in a partitioned log is capped by partition count: a topic with 12 partitions supports at most 12 active consumers in one group."
+    },
+    {
+      "text": "Batching: sending 100 messages per request amortizes network round trips and fsyncs, trading a few milliseconds of latency for a large throughput gain."
+    },
+    {
+      "text": "Stream windows: tumbling windows are fixed and non-overlapping, sliding windows overlap, and session windows close after a gap of inactivity."
+    },
+    {
+      "text": "Event time vs processing time: events arrive late and out of order, so stream processors use watermarks to decide when a time window is complete."
+    },
+    {
+      "text": "Claim-check pattern: keep messages small by storing large payloads in blob storage and sending only a reference through the queue."
+    },
+    {
+      "text": "Token bucket: tokens refill at rate r up to capacity b, and each request spends one. It allows bursts of up to b while enforcing an average rate of r."
+    },
+    {
+      "text": "Leaky bucket: requests enter a queue that drains at a fixed rate, smoothing bursts into steady output; when the queue is full, excess requests are dropped."
+    },
+    {
+      "text": "Fixed window counter: count requests per clock minute. Cheap, but a client can send 2x the limit by bursting at the end of one window and the start of the next."
+    },
+    {
+      "text": "Sliding window log: store a timestamp per request and count those within the last window. Exact, but memory grows with the request rate."
+    },
+    {
+      "text": "Sliding window counter: estimate with two counters, e.g., current + previous x (fraction of previous window still overlapping). Nearly exact at constant memory."
+    },
+    {
+      "text": "Distributed rate limiting: a central Redis counter updated atomically (INCR or a Lua script) is accurate but adds a hop; per-node local limits are faster but approximate."
+    },
+    {
+      "text": "Rate limit responses: return HTTP 429 Too Many Requests with a Retry-After header so well-behaved clients back off instead of hammering."
+    },
+    {
+      "text": "Rate limit by the right key: per-IP limits punish users behind shared NAT; per API key or user is fairer, with per-IP kept as a coarse abuse layer."
+    },
+    {
+      "text": "Idempotency keys: the client sends a unique key with a POST; the server stores the result under that key and returns it on retries, so a retried payment charges once."
+    },
+    {
+      "text": "An idempotency key must be recorded atomically with the operation's effect; if a crash can happen between them, a retry can still execute twice."
+    },
+    {
+      "text": "HTTP semantics: GET, PUT and DELETE are idempotent by spec; POST and PATCH are not, which is why POST needs idempotency keys for safe retries."
+    },
+    {
+      "text": "Offset pagination (LIMIT 20 OFFSET 10000) slows down on deep pages because the DB still walks the skipped rows, and inserts shift items between pages."
+    },
+    {
+      "text": "Cursor (keyset) pagination: WHERE id > :last_seen ORDER BY id LIMIT 20 jumps straight to the page via the index and stays stable while rows are inserted."
+    },
+    {
+      "text": "API versioning: URL versions (/v2/) are explicit and cache-friendly; header versions keep URLs clean. Either way, additive changes shouldn't need a new version."
+    },
+    {
+      "text": "REST vs gRPC: REST with JSON is universal and easy to debug; gRPC uses HTTP/2 and Protobuf for compact, typed, streaming calls, and shines between internal services."
+    },
+    {
+      "text": "GraphQL lets clients fetch exactly the fields they need in one call, but moves complexity to the server: query cost limits, N+1 resolvers, and harder HTTP caching."
+    },
+    {
+      "text": "Long polling vs SSE vs WebSockets: long polling is simple but chatty, SSE streams server-to-client over plain HTTP, and WebSockets give full-duplex messaging."
+    },
+    {
+      "text": "Webhooks: sign payloads with HMAC, include an event ID so receivers can dedupe, and retry with backoff, because receivers will sometimes be down."
+    },
+    {
+      "text": "ETag + If-Match gives optimistic concurrency over HTTP: an update fails with 412 Precondition Failed if someone else changed the resource first."
+    },
+    {
+      "text": "SLI vs SLO vs SLA: the SLI is the measured metric (success rate), the SLO is the internal target (99.9%), and the SLA is the contractual promise, set looser than the SLO."
+    },
+    {
+      "text": "Error budget: a 99.9% SLO allows 0.1% failure, about 43 minutes of downtime per 30 days. When the budget is spent, slow releases and fix reliability."
+    },
+    {
+      "text": "Nines of availability per year: 99% is ~3.65 days of downtime, 99.9% ~8.8 hours, 99.99% ~53 minutes, and 99.999% ~5.3 minutes."
+    },
+    {
+      "text": "Serial dependencies multiply availability: three services at 99.9% each, called in a chain, give about 99.7% end to end."
+    },
+    {
+      "text": "Redundancy adds nines: two independent replicas at 99% each give 1 - 0.01^2 = 99.99%, but only if their failures are truly independent, which they rarely are."
+    },
+    {
+      "text": "RED method for services: Rate (requests/s), Errors (failed requests/s) and Duration (latency distribution). A solid default dashboard for every endpoint."
+    },
+    {
+      "text": "USE method for resources: Utilization, Saturation and Errors for each CPU, disk, NIC and memory. Saturation (queueing) often shows trouble before utilization hits 100%."
+    },
+    {
+      "text": "Report latency as percentiles, not averages: a 50 ms mean can hide a 2 s p99 that one in every hundred requests experiences."
+    },
+    {
+      "text": "You can't average percentiles across hosts. Merge histograms or sketches (HDR histogram, t-digest) and compute percentiles from the combined data."
+    },
+    {
+      "text": "Distributed tracing: a trace ID propagated through every hop (the W3C traceparent header) stitches spans into one request tree that shows where time is spent."
+    },
+    {
+      "text": "Trace sampling: head-based sampling decides at the start (cheap, but misses rare errors); tail-based decides after completion, so slow or failed traces can be kept."
+    },
+    {
+      "text": "High cardinality kills metrics: a label like user_id creates one time series per user. Keep IDs in logs and traces, not in metric labels."
+    },
+    {
+      "text": "Alert on symptoms, not causes: page when users are hurting (SLO burn, error rate), not when CPU hits 80%, which may be perfectly harmless."
+    },
+    {
+      "text": "Burn-rate alerting: page when the error budget burns at about 14x the sustainable rate over an hour, catching real outages fast while ignoring brief blips."
+    },
+    {
+      "text": "Circuit breaker: after failures cross a threshold, stop calling the dependency (open) and fail fast; after a cooldown, let a trial request through (half-open) to test recovery."
+    },
+    {
+      "text": "Bulkhead: give each dependency its own thread or connection pool, so one slow dependency can't exhaust the capacity that every other call needs."
+    },
+    {
+      "text": "Exponential backoff with jitter: wait random(0, base x 2^attempt) between retries so clients that failed together don't retry in synchronized waves."
+    },
+    {
+      "text": "Retry amplification: if each of 3 layers makes up to 3 attempts, one failing call can become 27 attempts at the bottom. Retry at one layer only."
+    },
+    {
+      "text": "Retry budgets: allow retries only up to about 10% of normal request volume, so retries smooth over blips but can't multiply load during an outage."
+    },
+    {
+      "text": "Only retry failures that may succeed later: timeouts, 503s and connection resets. Don't retry 4xx errors, and never retry non-idempotent calls without idempotency keys."
+    },
+    {
+      "text": "Every network call needs a timeout. Without one, a hung dependency slowly ties up every thread and connection, and the caller goes down with it."
+    },
+    {
+      "text": "Deadline propagation: pass the remaining time budget downstream (as gRPC deadlines do) so services stop working on requests the caller has already given up on."
+    },
+    {
+      "text": "Backpressure: when a consumer can't keep up, signal producers to slow down (bounded queues, TCP flow control, reactive streams) instead of buffering without limit."
+    },
+    {
+      "text": "Load shedding: when overloaded, reject excess requests early and cheaply (e.g., a fast 503) so the requests you do accept still finish within their deadlines."
+    },
+    {
+      "text": "Graceful degradation: when a dependency fails, serve a reduced experience (cached recommendations, hide the reviews widget) instead of failing the whole page."
+    },
+    {
+      "text": "Metastable failure: a brief trigger causes retries or cache misses that keep the system overloaded after the trigger is gone. Shedding load breaks the feedback loop."
+    },
+    {
+      "text": "Liveness probes should only confirm the process is alive. If liveness checks the database, one DB blip makes the orchestrator restart every pod at once."
+    },
+    {
+      "text": "Canary deploys: send a new version 1% of traffic first and compare its error rate and latency against the baseline before rolling out to everyone."
+    },
+    {
+      "text": "RPO vs RTO: RPO is how much data you can afford to lose (time since last good copy); RTO is how long recovery may take. Together they drive backup and failover design."
+    },
+    {
+      "text": "Multi-AZ vs multi-region: AZs in a region are linked with low latency, so sync replication is practical; regions are far apart, so cross-region replication is usually async."
+    },
+    {
+      "text": "Latency numbers: L1 cache ~1 ns, main memory ~100 ns, SSD random read ~16-100 us, same-datacenter round trip ~0.5 ms, cross-continent round trip ~150 ms."
+    },
+    {
+      "text": "A day has 86,400 seconds; round it to 10^5 for estimates. One million requests per day is only about 12 requests per second on average."
+    },
+    {
+      "text": "Size for peak, not average: peak traffic is often 2-10x the daily average due to daily cycles, launches and events."
+    },
+    {
+      "text": "Storage estimate: 100M new records/day x 1 KB = 100 GB/day, about 36 TB/year; with 3x replication, roughly 110 TB/year."
+    },
+    {
+      "text": "Random vs sequential I/O: an HDD seek costs ~10 ms, so a spinning disk does only ~100-200 random reads/s while streaming 100+ MB/s sequentially."
+    },
+    {
+      "text": "Bandwidth estimate: 1 Gbps is about 125 MB/s. Serving 1 MB images at 10,000 req/s needs roughly 80 Gbps of egress."
+    },
+    {
+      "text": "QPS from DAU: 10M daily users x 10 requests each / 86,400 s is about 1,200 req/s average; plan for peaks of 2-3x that or more."
+    },
+    {
+      "text": "Object storage (S3, GCS): flat key namespace, effectively unlimited capacity and very high durability, but higher latency than block storage and no in-place edits."
+    },
+    {
+      "text": "Store large files in object storage and keep only metadata and the object key in the database; blobs bloat DB backups, replication and memory."
+    },
+    {
+      "text": "Pre-signed URLs let clients upload or download directly to object storage with time-limited permission, keeping big transfers off your app servers."
+    },
+    {
+      "text": "Multipart upload: split large files into parts uploaded in parallel and retried individually. S3 caps a single PUT at 5 GB, so bigger objects require it."
+    },
+    {
+      "text": "LSM tree: writes go to an in-memory memtable, flush to immutable sorted SSTables, and are merged by background compaction. Excellent write throughput."
+    },
+    {
+      "text": "LSM reads may check the memtable and several SSTables; per-SSTable Bloom filters let them skip files that definitely don't contain the key."
+    },
+    {
+      "text": "B-tree vs LSM: B-trees update pages in place and give predictable reads; LSMs turn writes into sequential appends, favoring write-heavy loads at the cost of compaction."
+    },
+    {
+      "text": "Write amplification: one logical write can cause many physical writes (B-tree page rewrites, LSM compaction), hurting throughput and SSD lifetime."
+    },
+    {
+      "text": "Bloom filter: a compact bit array that answers 'definitely not present' or 'maybe present'. No false negatives; about 10 bits per key gives ~1% false positives."
+    },
+    {
+      "text": "Erasure coding: store data as k data chunks plus m parity chunks (e.g., 10+4) to survive m losses at ~1.4x overhead, versus 3x for triple replication."
+    },
+    {
+      "text": "Columnar storage (Parquet, ClickHouse) stores each column contiguously, so analytics reading a few columns over billions of rows scan far less and compress well."
+    },
+    {
+      "text": "Inverted index: maps each term to the list of documents containing it, so a search intersects posting lists instead of scanning every document."
+    },
+    {
+      "text": "Text analysis (tokenizing, lowercasing, stemming 'running' to 'run') must match at index time and query time, or searches silently miss documents."
+    },
+    {
+      "text": "BM25 ranking: scores documents by term frequency with saturation, inverse document frequency (rare terms count more) and document length normalization."
+    },
+    {
+      "text": "Elasticsearch fixes an index's primary shard count at creation; changing it means reindexing or using split/shrink, so size shards from expected data volume."
+    },
+    {
+      "text": "Typeahead: precompute the top-k completions for each prefix (in a trie or prefix table) and cache them, since each keystroke has a ~100 ms latency budget."
+    },
+    {
+      "text": "Geospatial search: geohashes or quadtrees turn 2D locations into prefixes; query the user's cell plus its 8 neighbors to catch points near cell edges."
+    },
+    {
+      "text": "Hash passwords with a slow, salted algorithm (bcrypt, scrypt, Argon2), never a plain fast hash like SHA-256. Salts defeat rainbow tables; slowness defeats brute force."
+    },
+    {
+      "text": "Authentication proves who you are; authorization decides what you may do. Check authorization server-side on every request, not just by hiding buttons in the UI."
+    },
+    {
+      "text": "JWTs are verifiable without a DB lookup, but can't be revoked before expiry without a denylist. Keep access tokens short-lived and pair them with refresh tokens."
+    },
+    {
+      "text": "OAuth 2.0 is for delegated authorization (access tokens); OpenID Connect adds an ID token on top of it for authentication."
+    },
+    {
+      "text": "SQL injection: always use parameterized queries. Concatenating user input into SQL lets attackers rewrite the query itself."
+    },
+    {
+      "text": "TLS provides encryption, integrity and server authentication; mutual TLS also authenticates the client, a common basis for zero-trust service-to-service traffic."
+    },
+    {
+      "text": "Envelope encryption: data keys encrypt the data, and a master key in a KMS encrypts the data keys, so rotating the master key doesn't mean re-encrypting all data."
+    },
+    {
+      "text": "CSRF: browsers attach cookies to cross-site requests automatically. Defend with SameSite cookies and anti-CSRF tokens on state-changing requests."
+    },
+    {
+      "text": "XSS: escape untrusted output for its context (HTML, attribute, JS) and set a Content-Security-Policy so injected scripts can't run."
+    },
+    {
+      "text": "URL shortener: 7 base62 characters give 62^7, about 3.5 trillion codes, enough for billions of links with room to spare."
+    },
+    {
+      "text": "URL shortener codes: base62-encoding a unique counter avoids collisions entirely; hashing the URL needs collision checks. Hand out ID ranges per node to avoid a bottleneck."
+    },
+    {
+      "text": "URL shortener redirects: a 301 is cached by browsers (less load, but you lose click analytics); a 302 hits your server every time, so each click can be counted."
+    },
+    {
+      "text": "News feed fan-out on write: push each new post into followers' precomputed timelines. Reads are instant, but one celebrity post means millions of writes."
+    },
+    {
+      "text": "News feed hybrid: fan-out on write for normal users, fan-out on read for celebrities, merging their recent posts into the timeline at read time."
+    },
+    {
+      "text": "Chat system: clients hold persistent WebSocket connections, and a session service maps each user to the gateway server that holds their connection."
+    },
+    {
+      "text": "Chat ordering: assign per-conversation sequence numbers on the server. Client clocks drift and can't be trusted to order messages."
+    },
+    {
+      "text": "Chat delivery: persist the message first, then push it. Offline users catch up on reconnect by syncing everything after their last-seen sequence number."
+    },
+    {
+      "text": "Rate limiter design: enforce it in the API gateway or middleware, keep counters in Redis updated by atomic Lua scripts, and decide up front whether to fail open or closed."
+    },
+    {
+      "text": "Snowflake IDs: 64 bits = 41-bit millisecond timestamp + 10-bit machine ID + 12-bit sequence, giving roughly time-sorted unique IDs with no coordination."
+    },
+    {
+      "text": "Leaderboard: a Redis sorted set gives O(log n) score updates and rank lookups, ideal for top-k queries and 'what is my rank'."
+    },
+    {
+      "text": "Payment system: use idempotency keys end to end, a double-entry ledger, and reconciliation against the processor, since timeouts leave you unsure if a charge happened."
+    }
+  ]
+}

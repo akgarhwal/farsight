@@ -1,0 +1,335 @@
+{
+  "category": "AI Agents",
+  "items": [
+    {
+      "text": "An agent is an LLM in a loop: it observes the current state, decides on an action, calls a tool, reads the result, and repeats until the goal is met or a limit is hit."
+    },
+    {
+      "text": "The environment is the agent's ground truth. Each tool result tells the agent whether its last step worked, so it can correct course instead of guessing."
+    },
+    {
+      "text": "Every agent loop needs explicit stop conditions: task complete, max steps, max cost, or an unrecoverable error. Without them a confused agent can run forever."
+    },
+    {
+      "text": "Workflows run LLM calls along predefined code paths; agents let the model choose the path. Use an agent only when the steps cannot be known in advance."
+    },
+    {
+      "text": "The model never runs a tool itself. It emits a structured tool call, your code executes it, and you send the result back as the next message."
+    },
+    {
+      "text": "Errors compound over steps: if each step succeeds 95% of the time, a 20-step task succeeds only about 36% of the time. Cut steps or add checks between them."
+    },
+    {
+      "text": "Give the agent a clear definition of done. 'Improve the code' invites endless wandering; 'make these three tests pass' has a finish line."
+    },
+    {
+      "text": "Start simple: a single well-prompted LLM call with good retrieval often beats an agent. Add loops and autonomy only when evals show you need them."
+    },
+    {
+      "text": "Good agent tasks are open-ended, multi-step and verifiable, with room for trial and error. Poor fits need one right answer on the first try with no feedback."
+    },
+    {
+      "text": "Be wary of frameworks that hide prompts and tool calls. Start with direct API calls so you know exactly what the model sees, then abstract if needed."
+    },
+    {
+      "text": "Ask how cheap a mistake is to detect and undo. Agents shine where errors are recoverable and need heavy guardrails where one wrong action is costly."
+    },
+    {
+      "text": "Name tools like functions for a new teammate: search_customer_orders beats query or tool2. The model picks tools largely from names and descriptions."
+    },
+    {
+      "text": "Write tool descriptions like docs for a new hire: what the tool does, when to use it, when not to, and what each parameter means, ideally with an example."
+    },
+    {
+      "text": "Use typed schemas with enums, required fields and formats. 'status: one of open, closed' stops the model from inventing values like 'done'."
+    },
+    {
+      "text": "Good tool errors teach recovery: 'date must be YYYY-MM-DD, got 03/04' beats a bare 'invalid input' or a raw stack trace."
+    },
+    {
+      "text": "Fewer, well-scoped tools beat many overlapping ones. If two tools could plausibly handle the same request, the model will choose between them inconsistently."
+    },
+    {
+      "text": "Design tools around tasks, not raw endpoints. One schedule_meeting tool beats making the agent chain list_users, check_calendar and create_event itself."
+    },
+    {
+      "text": "Return only what the agent needs. Paginate, truncate or summarize large tool responses, and offer a detailed mode the agent can request when necessary."
+    },
+    {
+      "text": "Return human-meaningful fields like names and titles instead of opaque UUIDs where possible. Models reason more reliably over semantic identifiers."
+    },
+    {
+      "text": "Namespace related tools with a shared prefix, like github_create_issue and github_list_prs, so the agent can tell which system each tool touches."
+    },
+    {
+      "text": "Avoid parameters that demand fiddly formatting, like code escaped inside JSON strings. Choose input formats the model naturally writes correctly."
+    },
+    {
+      "text": "Test tools by watching the agent use them. Repeated wrong parameters or misused calls point to unclear names or descriptions you can fix."
+    },
+    {
+      "text": "Parallel tool calls let the model request several independent lookups in one turn, saving round trips. Make sure those tools are safe to run concurrently."
+    },
+    {
+      "text": "ReAct interleaves reasoning and acting: the model writes a thought, takes an action, reads the observation, and reasons again, grounding its plan in real results."
+    },
+    {
+      "text": "ReAct beats pure reasoning on knowledge tasks because it can look facts up, and beats pure acting because explicit thoughts keep it on track."
+    },
+    {
+      "text": "Reactive agents pick one step at a time from the latest observation. Simple and adaptive, but they can lose sight of the overall goal on long tasks."
+    },
+    {
+      "text": "Plan-and-execute agents draft a full plan first, then work through it. Plans make progress visible and reviewable, but must be revised when reality differs."
+    },
+    {
+      "text": "Keep the plan in a visible, updatable artifact such as a todo list. Updating it after each step keeps the agent oriented and lets humans follow along."
+    },
+    {
+      "text": "Replan on surprise: when a tool result contradicts an assumption, the agent should revise the plan rather than push ahead with stale steps."
+    },
+    {
+      "text": "Reflection: after an attempt, the agent critiques its output against the goal and revises. It works best when the critique uses concrete signals like test results."
+    },
+    {
+      "text": "Self-critique without external feedback has limits: a model often misses its own errors and may 'fix' correct answers. Ground critique in real checks."
+    },
+    {
+      "text": "Record lessons from failed attempts, such as 'this API needs header X', so the next try starts smarter instead of repeating the same mistake."
+    },
+    {
+      "text": "Ask for a specific critique: requirements not met, edge cases missed, claims lacking evidence. A vague 'is this good?' gets a reflexive yes."
+    },
+    {
+      "text": "Short-term memory is the context window: the running conversation and tool results. It is precise but finite, and it vanishes when the session ends."
+    },
+    {
+      "text": "Long-term memory lives outside the model, in files, databases or vector stores, and is retrieved into the context only when it is relevant."
+    },
+    {
+      "text": "Summarization memory compresses older turns into a running summary, keeping decisions, open questions and key findings while dropping verbose tool output."
+    },
+    {
+      "text": "Let the agent write progress notes and decisions to a file, so work survives context resets and a fresh session can pick up where the last one stopped."
+    },
+    {
+      "text": "Memory needs curation: stale or wrong memories get retrieved and reinforced. Timestamp entries and let newer facts supersede older ones."
+    },
+    {
+      "text": "Memory is an attack surface: one poisoned entry can steer every future session. Treat recalled memories as untrusted input, not as instructions."
+    },
+    {
+      "text": "Context engineering is deciding what enters the window at each step: instructions, tools, history, retrieved data. The agent can only act on what it sees."
+    },
+    {
+      "text": "Load context just in time: give the agent lightweight references like file paths or IDs plus tools to fetch details, instead of preloading everything."
+    },
+    {
+      "text": "Clear old tool results once they have been used. A raw 5,000-line log from ten steps ago rarely helps and crowds out what matters now."
+    },
+    {
+      "text": "Set a context budget per component: system prompt, tool definitions, history and retrieved data. Watch which part grows as tasks get longer."
+    },
+    {
+      "text": "Tool definitions cost tokens on every call. Dozens of rarely used tools waste budget and muddle selection, so load tools on demand when you can."
+    },
+    {
+      "text": "Recency matters: in a long agent context, put the most decision-relevant facts and the current objective last, right before the model chooses its next action."
+    },
+    {
+      "text": "Sub-agents isolate context: a worker can burn many tokens exploring, then return a short summary, keeping the main agent's window clean."
+    },
+    {
+      "text": "Prompt chaining: break a task into fixed sequential LLM calls, each consuming the previous output. Add programmatic checks between steps to catch errors early."
+    },
+    {
+      "text": "Routing: classify the input first, then send it to a specialized prompt, tool set or model. Separating cases keeps each handler simple and well tuned."
+    },
+    {
+      "text": "Parallelization by sectioning splits a task into independent parts that run at once, such as one call answering while another screens for policy issues."
+    },
+    {
+      "text": "Parallelization by voting runs the same task several times and aggregates the verdicts, useful for high-stakes judgments like flagging vulnerable code."
+    },
+    {
+      "text": "Orchestrator-worker: a lead agent breaks the task into subtasks at runtime, delegates them to workers, and synthesizes their results into one answer."
+    },
+    {
+      "text": "Evaluator-optimizer: one call generates, another evaluates against clear criteria and gives feedback, and the loop repeats until the output passes."
+    },
+    {
+      "text": "Multi-agent systems use many times more tokens than a single agent. They pay off for broad, parallelizable work, not for tightly coupled tasks."
+    },
+    {
+      "text": "Give each sub-agent a complete brief: objective, output format, tools and boundaries. Workers do not share the lead's context and will duplicate or miss work."
+    },
+    {
+      "text": "Tightly interdependent work, like many edits to one codebase, often goes worse with several agents: conflicting changes outweigh the parallel speed."
+    },
+    {
+      "text": "Scale effort to the query: a simple lookup needs one agent and a few calls, while a broad research question may justify several parallel workers."
+    },
+    {
+      "text": "MCP (Model Context Protocol) is an open standard for connecting AI applications to tools and data, so one integration can work across many clients."
+    },
+    {
+      "text": "MCP roles: the host is the AI application, it creates one client per connection, and each server is a program that exposes capabilities to it."
+    },
+    {
+      "text": "MCP servers expose three main primitives: tools (actions the model can call), resources (data the app can read) and prompts (reusable templates)."
+    },
+    {
+      "text": "In MCP, tools are model-controlled, resources are application-controlled and prompts are user-controlled. That split decides who triggers each one."
+    },
+    {
+      "text": "MCP servers run locally over stdio or remotely over HTTP. Remote servers typically use OAuth, so users grant scoped access instead of pasting keys."
+    },
+    {
+      "text": "An MCP server's tool descriptions flow straight into the model's context, so a malicious or compromised server can use them to inject instructions."
+    },
+    {
+      "text": "Install only MCP servers you trust, pin their versions and review what they can access. A server can change its tool definitions after you approve it."
+    },
+    {
+      "text": "MCP clients discover capabilities at runtime by listing a server's tools, so connecting a new server extends an agent without changing its code."
+    },
+    {
+      "text": "Human-in-the-loop: pause for approval before irreversible or high-impact actions like sending email, spending money, deleting data or deploying."
+    },
+    {
+      "text": "Make approvals meaningful by showing exactly what will happen: the diff, the recipient, the amount. Vague prompts train people to click approve blindly."
+    },
+    {
+      "text": "Tier permissions by risk: auto-allow reads, confirm writes, and require explicit sign-off for destructive or externally visible actions."
+    },
+    {
+      "text": "Let agents ask a clarifying question when a request is ambiguous. One question up front is cheaper than a long run in the wrong direction."
+    },
+    {
+      "text": "Checkpoint long tasks at milestones, such as after the plan or the first draft, so a human can redirect early instead of reviewing a finished mess."
+    },
+    {
+      "text": "Give agents least privilege: scoped credentials, read-only access by default, and only the tools the current task actually needs."
+    },
+    {
+      "text": "Run code-executing agents in a sandbox, such as a container or VM with no production credentials, restricted network access and a disposable filesystem."
+    },
+    {
+      "text": "Enforce guardrails in code, not only in the prompt. 'Never delete files' in a system prompt is a request; a permission check is a guarantee."
+    },
+    {
+      "text": "Input guardrails screen requests before the agent acts; output guardrails check actions and responses before they take effect. Use both."
+    },
+    {
+      "text": "Cap agent actions per run: max emails sent, max spend, max files changed. Hard caps turn a runaway bug into a small incident."
+    },
+    {
+      "text": "Lethal trifecta: an agent with private data, exposure to untrusted content and a way to send data out can be tricked into leaking. Remove one of the three."
+    },
+    {
+      "text": "Any tool that returns outside content, like web pages, emails, tickets or files, can carry prompt injection. Tool output is data, never instructions."
+    },
+    {
+      "text": "An instruction hidden in a fetched web page can make a browsing agent act for the attacker, using your credentials and your tools."
+    },
+    {
+      "text": "Wrap untrusted tool output in clearly labeled tags marking it as external content, and tell the model never to follow instructions found inside."
+    },
+    {
+      "text": "Labeling untrusted content helps but guarantees nothing. The real defense is limiting what the agent can do after it has read untrusted input."
+    },
+    {
+      "text": "Quarantine pattern: a privileged model plans using trusted input only, while a separate model with no tool access processes untrusted content."
+    },
+    {
+      "text": "Make agent actions idempotent: calling a tool twice with the same input should not create two orders or send two emails. Agents retry more than you expect."
+    },
+    {
+      "text": "Pass an idempotency key with write operations, so a tool call retried after a timeout is recognized and not executed a second time."
+    },
+    {
+      "text": "Prefer reversible actions: drafts over sends, soft deletes over hard deletes, feature branches over pushes to the main branch."
+    },
+    {
+      "text": "Have agents work on a copy, such as a branch, a staging environment or a dry-run mode, and apply changes for real only after review."
+    },
+    {
+      "text": "Snapshot state before risky steps, with a git commit or a database backup, so a bad agent action is one rollback away from undone."
+    },
+    {
+      "text": "Trace every agent run: each model call, prompt, tool call, arguments, result, latency and token count. You cannot debug what you cannot replay."
+    },
+    {
+      "text": "Structure traces as nested spans (run, step, model call, tool call) so you can see where time and tokens go and exactly where a run went wrong."
+    },
+    {
+      "text": "Monitor metrics across runs: success rate, steps per task, cost per task and tool error rates. Shifts in these flag regressions early."
+    },
+    {
+      "text": "Review failed trajectories regularly. The same tool misused or the same dead end repeated points to a specific prompt or tool fix."
+    },
+    {
+      "text": "Tag every trace with the prompt, model and tool versions used, so you can compare runs before and after a change."
+    },
+    {
+      "text": "Evaluate agents on task success first: did the final state meet the goal? Check the outcome in the environment, not the agent's own claim of success."
+    },
+    {
+      "text": "Trajectory evals examine the path: right tools, sensible order, no wasted or dangerous steps. Two successful runs can differ widely in cost and risk."
+    },
+    {
+      "text": "Do not grade agents against one 'correct' path. Agents often find valid alternatives, so grade outcomes and flag only clearly bad steps."
+    },
+    {
+      "text": "Run each agent eval task several times. Report the pass rate and, for reliability-critical uses, how often all k attempts succeed."
+    },
+    {
+      "text": "Build agent evals in realistic, resettable environments, like a test repo or sandboxed account, so every run starts from the same state."
+    },
+    {
+      "text": "When an agent hits its budget, have it return partial results with a clear status of what is done and what remains, instead of failing silently."
+    },
+    {
+      "text": "Avoid rereading the same large file or rerunning the same search every step. Cache tool results within a run while their inputs are unchanged."
+    },
+    {
+      "text": "Loop failure: the agent repeats the same action expecting a new result. Detect repeated identical tool calls and force a change of strategy or a stop."
+    },
+    {
+      "text": "Goal drift: over long runs an agent can quietly swap the user's goal for an easier nearby one. Restate the objective and check work against it."
+    },
+    {
+      "text": "Overconfidence: agents often declare success without verifying. Require evidence, like a passing test or a fetched confirmation, before 'done'."
+    },
+    {
+      "text": "Error cascades: one wrong early assumption, like a misread file path, poisons every later step. Verify key assumptions before building on them."
+    },
+    {
+      "text": "Tool hallucination: agents sometimes call tools or parameters that do not exist. Validate calls against the schema and reply with the valid options."
+    },
+    {
+      "text": "Coding agents may game tests: special-casing test inputs or weakening assertions to turn them green. Review any changes to tests closely."
+    },
+    {
+      "text": "Tests are a coding agent's best feedback signal. Write or find a failing test first, then let the agent iterate until it passes."
+    },
+    {
+      "text": "Keep diffs small and focused. Small changes are easier for the agent to get right and for humans to review; big rewrites hide bugs."
+    },
+    {
+      "text": "Have a coding agent explore and plan before editing: read the relevant files, propose an approach, then implement. It prevents confident edits in the wrong place."
+    },
+    {
+      "text": "Document project conventions in a file the agent reads at startup: build and test commands, code style, and things to avoid."
+    },
+    {
+      "text": "Commit working checkpoints often during coding sessions, so each commit marks a known-good state the agent can diff against when something breaks."
+    },
+    {
+      "text": "Review agent-written code like a colleague's pull request. Watch for unrequested changes, deleted tests and plausible APIs that do not exist."
+    },
+    {
+      "text": "When an agent keeps failing, reset instead of piling on corrections. A fresh session with a sharper prompt often beats a long, confused one."
+    }
+  ]
+}

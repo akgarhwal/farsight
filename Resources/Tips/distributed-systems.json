@@ -1,0 +1,485 @@
+{
+  "category": "Distributed Systems",
+  "items": [
+    {
+      "text": "CAP theorem: during a network partition, a system must choose between consistency (linearizable reads) and availability (every live node answers). No partition, no forced choice."
+    },
+    {
+      "text": "CAP is not 'pick any two': partitions happen whether you like it or not, so the real choice is whether the system behaves CP or AP while one is in progress."
+    },
+    {
+      "text": "PACELC: if Partitioned, choose Availability or Consistency; Else, choose Latency or Consistency. Dynamo-style stores are PA/EL; Spanner is PC/EC."
+    },
+    {
+      "text": "The C in CAP means linearizability, which is unrelated to the C in ACID (transactions preserving application invariants). Same letter, different ideas."
+    },
+    {
+      "text": "CP vs AP in practice: ZooKeeper and etcd refuse writes on the minority side of a partition; Cassandra and Dynamo-style stores keep accepting writes and reconcile later."
+    },
+    {
+      "text": "Tunable consistency: Cassandra's per-query consistency level (ONE, QUORUM, ALL) moves each request along the latency vs consistency spectrum."
+    },
+    {
+      "text": "Linearizability: every operation appears to take effect atomically at one instant between its start and end; once a write completes, every later read sees it."
+    },
+    {
+      "text": "Sequential consistency: all nodes see operations in one order that respects each process's program order, but that order need not match real time."
+    },
+    {
+      "text": "Causal consistency: if A could have influenced B, everyone sees A before B. Concurrent, unrelated writes may be seen in different orders on different nodes."
+    },
+    {
+      "text": "Eventual consistency: if writes stop, all replicas eventually converge. It promises nothing about what reads return in the meantime."
+    },
+    {
+      "text": "Read-your-writes: after you write, your own later reads reflect it. Implement it by reading from the leader briefly, or by passing a version token replicas must catch up to."
+    },
+    {
+      "text": "Monotonic reads: a client never sees data go backwards in time. Pin the client to one replica or track the last version it saw."
+    },
+    {
+      "text": "Monotonic writes: a single process's writes are applied in the order it issued them, on every replica."
+    },
+    {
+      "text": "Writes-follow-reads: if you read X and then write Y, Y is ordered after X everywhere, so a reply never shows up before the post it answers."
+    },
+    {
+      "text": "Strict serializability = serializability + linearizability: transactions appear in a single total order that also respects real time. Spanner provides it."
+    },
+    {
+      "text": "Serializability is about multi-object transactions; linearizability is about single-object recency. A system can offer either one without the other."
+    },
+    {
+      "text": "Linearizability is expensive: every operation needs coordination, so latency is bounded below by a quorum round trip, which can cross regions."
+    },
+    {
+      "text": "Session guarantees (read-your-writes, monotonic reads, monotonic writes, writes-follow-reads) combined give causal consistency for a single client session."
+    },
+    {
+      "text": "Causal consistency is roughly the strongest model that stays available during partitions; anything with real-time ordering, like linearizability, must sacrifice availability."
+    },
+    {
+      "text": "Consensus: nodes agree on a single value despite failures, with agreement, validity and termination. It underpins leader election, locks and replicated logs."
+    },
+    {
+      "text": "Majority consensus needs 2f+1 nodes to tolerate f crashed nodes: 3 nodes survive 1 failure, 5 survive 2, 7 survive 3."
+    },
+    {
+      "text": "Why odd cluster sizes: going from 3 to 4 nodes raises the quorum from 2 to 3 but still tolerates only one failure. You pay for a node and gain nothing."
+    },
+    {
+      "text": "Paxos roles: proposers suggest values, acceptors vote, learners learn the outcome. A value is chosen once a majority of acceptors accept the same proposal."
+    },
+    {
+      "text": "Paxos phase 1 (prepare/promise): acceptors promise to ignore proposals numbered below n and report any value already accepted, which the proposer must then adopt."
+    },
+    {
+      "text": "Multi-Paxos: elect a stable leader and skip phase 1 for later log slots, so each command costs a single round trip to a majority."
+    },
+    {
+      "text": "Raft decomposes consensus into leader election, log replication and safety, and was explicitly designed to be easier to understand than Paxos."
+    },
+    {
+      "text": "Raft terms: time is divided into numbered terms with at most one leader each. Any node that sees a higher term immediately reverts to follower."
+    },
+    {
+      "text": "Raft election: a follower that hears no heartbeat before its election timeout becomes a candidate, increments its term, votes for itself and requests votes from peers."
+    },
+    {
+      "text": "Raft randomizes election timeouts (e.g., 150-300 ms) so one node usually times out first and wins before others start competing, making split votes rare."
+    },
+    {
+      "text": "Raft voting rule: a node only votes for a candidate whose log is at least as up to date as its own, so any elected leader already has every committed entry."
+    },
+    {
+      "text": "Raft log replication: the leader appends an entry, sends AppendEntries to followers, and marks it committed once a majority have stored it."
+    },
+    {
+      "text": "Raft log matching: AppendEntries carries the previous entry's index and term; followers reject on mismatch, and the leader backs up until logs agree, then overwrites."
+    },
+    {
+      "text": "Raft commit subtlety: a leader only commits entries from its own term by counting replicas; earlier-term entries become committed indirectly behind them."
+    },
+    {
+      "text": "Raft membership changes use joint consensus or one-server-at-a-time changes, so old and new configurations can never form two independent majorities."
+    },
+    {
+      "text": "Raft log compaction: snapshot the state machine and discard the log prefix; followers that fall too far behind receive the snapshot via InstallSnapshot."
+    },
+    {
+      "text": "Raft pre-vote: a would-be candidate first checks it could win before bumping its term, so a flapping, partitioned node can't depose a healthy leader."
+    },
+    {
+      "text": "A single leader caps a consensus group's throughput, so systems run many independent groups, e.g., one Raft group per shard or key range."
+    },
+    {
+      "text": "Zab (ZooKeeper Atomic Broadcast): a Paxos-like protocol ensuring all servers deliver updates in the same order, with a recovery phase whenever the leader changes."
+    },
+    {
+      "text": "Linearizable reads in Raft: a leader must confirm it still leads (ReadIndex heartbeat to a majority) or hold a valid lease, or a deposed leader may serve stale data."
+    },
+    {
+      "text": "Quorum rule: with N replicas, write to W and read from R. If R + W > N, every read set overlaps the most recent successful write set."
+    },
+    {
+      "text": "Common quorum setting: N=3, W=2, R=2, which tolerates one unavailable replica for both reads and writes."
+    },
+    {
+      "text": "Quorum tradeoffs: W=N, R=1 makes reads cheap but one down node blocks writes; W=1, R=N makes writes cheap but one down node blocks reads."
+    },
+    {
+      "text": "R + W > N alone is not linearizable: concurrent writes, sloppy quorums and partially failed writes can still return stale or flip-flopping values."
+    },
+    {
+      "text": "Sloppy quorum: when home replicas are unreachable, writes go to any N healthy nodes. Availability rises, but the R + W > N overlap guarantee no longer holds."
+    },
+    {
+      "text": "Read repair: when a quorum read sees replicas disagree, the coordinator writes the newest value back to the stale replicas."
+    },
+    {
+      "text": "Majority quorums work because any two majorities of the same N nodes share at least one node, which carries knowledge from one operation to the next."
+    },
+    {
+      "text": "Lamport clock: increment a counter on each event; on receive, set it to max(local, received) + 1. If A happened-before B, then L(A) < L(B)."
+    },
+    {
+      "text": "Lamport clock limit: L(A) < L(B) does not imply A happened before B. Lamport timestamps cannot detect that two events were concurrent."
+    },
+    {
+      "text": "Lamport timestamps with node ID as a tiebreaker give a total order over all events that is consistent with causality."
+    },
+    {
+      "text": "Vector clocks: one counter per node. A happened before B iff A's vector is <= B's in every entry and differs somewhere; if neither dominates, they are concurrent."
+    },
+    {
+      "text": "Version vectors detect sibling conflicts: Riak can return both concurrent values to the client to merge, instead of silently discarding one."
+    },
+    {
+      "text": "Hybrid logical clocks (HLC): physical time plus a logical counter, staying close to wall-clock time while preserving causality. Used by CockroachDB and YugabyteDB."
+    },
+    {
+      "text": "Clock skew: NTP typically keeps servers within milliseconds, but skew can jump to seconds after a bad sync, a VM pause or a misconfigured time source."
+    },
+    {
+      "text": "Never order cross-machine events by wall-clock timestamps alone: skew between hosts can make an effect appear to happen before its cause."
+    },
+    {
+      "text": "Last-write-wins silently drops concurrent writes: the higher timestamp survives, even if the other update was the one the user made last."
+    },
+    {
+      "text": "Use a monotonic clock to measure durations and timeouts; wall-clock time can jump backward or forward when NTP corrects it."
+    },
+    {
+      "text": "Spanner TrueTime: returns an interval [earliest, latest] with bounded uncertainty, typically a few milliseconds, using GPS receivers and atomic clocks."
+    },
+    {
+      "text": "Spanner commit wait: after picking commit timestamp s, the leader waits until TrueTime guarantees s is in the past everywhere, yielding external consistency."
+    },
+    {
+      "text": "Process pauses: a GC pause, VM migration or swapping can freeze a node for seconds, and it resumes acting on leases or beliefs that are no longer true."
+    },
+    {
+      "text": "Leap seconds have crashed production systems; Google and others 'smear' the extra second over many hours so clocks never repeat or jump."
+    },
+    {
+      "text": "The 8 fallacies of distributed computing: the network is reliable, latency is zero, bandwidth is infinite, it is secure, topology never changes, one admin, free transport, homogeneous."
+    },
+    {
+      "text": "Fallacy 'the network is reliable': packets drop, links flap and switches fail, so every remote call needs timeouts, retries and idempotency."
+    },
+    {
+      "text": "Fallacy 'latency is zero': a cross-region call costs ~100 ms, so a chatty flow with 20 sequential calls takes seconds. Batch and parallelize."
+    },
+    {
+      "text": "Fallacy 'bandwidth is infinite': moving terabytes between regions takes hours and real money; move computation to the data instead."
+    },
+    {
+      "text": "A timeout can't tell a dead node from a slow one or a lost reply; the remote side may have executed your request even though you never heard back."
+    },
+    {
+      "text": "Network partitions are not rare: surveys of production incidents (Bailis and Kingsbury, 2014) found partitions regularly, even inside a single datacenter."
+    },
+    {
+      "text": "Asymmetric partitions: A can reach B but B can't reach A. One-way links confuse naive heartbeats and can trigger repeated, pointless leader elections."
+    },
+    {
+      "text": "Geo-distributed consensus: every write needs a majority round trip, so a group spanning continents pays ~100+ ms per commit. Place a majority near the writers."
+    },
+    {
+      "text": "Failure detectors are inherently unreliable: in an asynchronous network a slow node looks exactly like a crashed one."
+    },
+    {
+      "text": "Phi accrual failure detector (Cassandra, Akka): outputs a suspicion level based on the observed distribution of heartbeat gaps, instead of a fixed yes/no timeout."
+    },
+    {
+      "text": "Failure detection tradeoff: short timeouts detect crashes fast but cause false failovers under load spikes; long timeouts leave real failures undetected longer."
+    },
+    {
+      "text": "SWIM membership: a node pings a random peer; if there's no ack, it asks k other members to ping it indirectly before suspecting it, filtering out one bad link."
+    },
+    {
+      "text": "Gray failure: a node passes health checks but fails or crawls on real traffic. Detect it from actual request outcomes, not heartbeats alone."
+    },
+    {
+      "text": "Chandra-Toueg: consensus becomes solvable in an asynchronous system given an unreliable failure detector that is eventually accurate, plus a majority of correct nodes."
+    },
+    {
+      "text": "Split brain: a partition leaves two nodes each believing it is the leader, both accepting writes and diverging. Majority quorums make this impossible."
+    },
+    {
+      "text": "Two-node clusters can't form a majority after losing one node. Add a witness or arbiter as a third vote to break ties and avoid split brain."
+    },
+    {
+      "text": "Fencing token: the lock service issues a monotonically increasing number with each grant, and storage rejects any write carrying a lower token than it has already seen."
+    },
+    {
+      "text": "Lease: a lock with an expiry. The holder must renew it in time; if the holder dies, the lease simply lapses and another node can take over without manual cleanup."
+    },
+    {
+      "text": "Leases assume bounded clock drift: the holder should treat its lease as expired slightly early, leaving margin for skew between its clock and the grantor's."
+    },
+    {
+      "text": "STONITH ('shoot the other node in the head'): before promoting a new leader, forcibly power off or isolate the old one so it can't keep writing."
+    },
+    {
+      "text": "Redlock debate: Kleppmann argued Redis Redlock is unsafe for correctness because it depends on timing assumptions and issues no fencing tokens. Fine for efficiency locks."
+    },
+    {
+      "text": "Two-phase commit: the coordinator asks every participant to prepare; if all vote yes it sends commit, otherwise abort. Gives atomic commit across nodes."
+    },
+    {
+      "text": "2PC blocking: if the coordinator crashes after participants vote yes, they must hold locks and wait; none can safely decide commit or abort alone."
+    },
+    {
+      "text": "A 2PC 'yes' vote is a promise: the participant must durably log the prepare, because it can no longer abort unilaterally, even after a crash."
+    },
+    {
+      "text": "3PC adds a pre-commit phase so participants can finish without the coordinator, but it assumes bounded network delays and can go wrong under partitions."
+    },
+    {
+      "text": "2PC over consensus: Spanner makes each participant and the coordinator a Paxos group, so 2PC no longer blocks on the failure of a single machine."
+    },
+    {
+      "text": "Cost of 2PC: two round trips plus forced log writes at every participant, with locks held throughout, so throughput drops as participants increase."
+    },
+    {
+      "text": "Saga: a long business transaction split into local transactions, each paired with a compensating action (e.g., refund) that runs in reverse if a later step fails."
+    },
+    {
+      "text": "Saga orchestration uses a central coordinator that tells each service what to do; choreography has services react to each other's events. Orchestration is easier to trace."
+    },
+    {
+      "text": "Sagas lack isolation: other transactions can see intermediate states (flight booked, hotel not yet), so use pending states or semantic locks."
+    },
+    {
+      "text": "Compensation is not rollback: a sent email can't be unsent, so the compensating step is a new corrective action, such as sending a cancellation."
+    },
+    {
+      "text": "Dual-write problem: updating a DB and publishing to a broker as two separate steps can leave one done and the other not after a crash."
+    },
+    {
+      "text": "Transactional outbox: write the business row and an outbox event in the same local DB transaction; a relay publishes outbox rows to the broker afterward."
+    },
+    {
+      "text": "An outbox relay can publish the same event twice (crash after send, before marking it sent), so the outbox gives at-least-once delivery and consumers must dedupe."
+    },
+    {
+      "text": "Inbox pattern: the consumer records each processed message ID in the same transaction as its side effects, so redelivered messages are detected and skipped."
+    },
+    {
+      "text": "At-most-once delivery: send without retrying. Messages may be lost but are never duplicated; fine for metrics, wrong for payments."
+    },
+    {
+      "text": "At-least-once delivery: retry until acknowledged. Nothing is lost but duplicates happen; it's the default for most brokers and requires idempotent consumers."
+    },
+    {
+      "text": "Exactly-once delivery over a lossy network is impossible; systems offer exactly-once processing, built from at-least-once delivery plus deduplication or atomic commits."
+    },
+    {
+      "text": "Two Generals problem: over a lossy channel, no finite exchange of messages can make both sides certain they agree to act, so acks alone can't give certainty."
+    },
+    {
+      "text": "Natural idempotency: 'set balance to 100' is idempotent; 'add 10 to balance' is not. Prefer absolute state updates, or tag each change with a unique operation ID."
+    },
+    {
+      "text": "Kafka exactly-once: idempotent producers (producer ID + sequence numbers) remove duplicate appends, and transactions commit outputs and consumer offsets atomically."
+    },
+    {
+      "text": "Dedupe windows: keeping every message ID forever is costly, so systems dedupe within a bounded window; SQS FIFO queues, for example, dedupe over 5 minutes."
+    },
+    {
+      "text": "CRDTs (conflict-free replicated data types): replicas update independently without coordination and are guaranteed to converge when they merge."
+    },
+    {
+      "text": "State-based CRDT merge must be commutative, associative and idempotent, so replicas can exchange state in any order, any number of times."
+    },
+    {
+      "text": "G-Counter CRDT: each replica increments only its own slot; value = sum of slots; merge = element-wise max. It supports increments only."
+    },
+    {
+      "text": "PN-Counter CRDT: two G-Counters, one for increments and one for decrements; the value is P minus N."
+    },
+    {
+      "text": "OR-Set (observed-remove set): each add carries a unique tag, and a remove deletes only tags it has observed, so a concurrent add wins over a remove."
+    },
+    {
+      "text": "Sequence CRDTs (RGA, Logoot, Yjs) give each character a unique, ordered ID, letting concurrent text edits merge without a central server in collaborative editors."
+    },
+    {
+      "text": "CRDTs guarantee convergence, not business invariants: a CRDT counter can't enforce 'stock never goes below zero' without some coordination."
+    },
+    {
+      "text": "Gossip protocol: each node periodically shares state with a few random peers; news reaches all N nodes in about O(log N) rounds, like an epidemic."
+    },
+    {
+      "text": "Gossip is decentralized and robust to node failures, but only eventually consistent. Cassandra uses it to spread membership and node state."
+    },
+    {
+      "text": "Consistent hashing: nodes and keys hash onto a ring and each key belongs to the next node clockwise, so adding a node moves only ~1/N of keys instead of nearly all of them."
+    },
+    {
+      "text": "Virtual nodes: each physical node owns many small ring positions, smoothing load imbalance and spreading a failed node's keys across many peers."
+    },
+    {
+      "text": "Rendezvous (highest random weight) hashing: score every node with hash(key, node) and pick the top score. Minimal key movement, no ring to maintain."
+    },
+    {
+      "text": "Anti-entropy: replicas periodically compare their data in the background and repair differences, catching keys that read repair never touches."
+    },
+    {
+      "text": "Merkle trees: replicas compare root hashes first and descend only into subtrees whose hashes differ, syncing large datasets while transferring very little."
+    },
+    {
+      "text": "Hinted handoff: when a replica is down, another node accepts the write with a hint and forwards it once the target comes back."
+    },
+    {
+      "text": "Hinted handoff is not a durability guarantee: if the node holding the hint also dies, the write never reaches its home replica, so anti-entropy is still required."
+    },
+    {
+      "text": "Dynamo preference list: a key is stored on the next N distinct physical nodes clockwise on the ring, skipping extra virtual nodes of the same host."
+    },
+    {
+      "text": "Rack and zone awareness: place replicas in different racks or availability zones so a single power or switch failure can't take out every copy."
+    },
+    {
+      "text": "Single-leader replication: all writes go to one leader, which streams changes to followers. Simple and well ordered, but the leader caps write throughput."
+    },
+    {
+      "text": "Multi-leader replication: each datacenter has its own leader for fast local writes, at the cost of resolving conflicts when leaders accept concurrent writes."
+    },
+    {
+      "text": "Leaderless replication (Dynamo, Cassandra): the client or a coordinator writes to several replicas directly; quorums, read repair and anti-entropy keep them converging."
+    },
+    {
+      "text": "Failover risk: a promoted async follower may lack the old leader's last writes, and if the old leader comes back, those writes conflict or get discarded."
+    },
+    {
+      "text": "Failover gone wrong (GitHub, 2012): an out-of-date MySQL follower was promoted and reused auto-increment IDs already referenced in Redis, exposing private data to wrong users."
+    },
+    {
+      "text": "Chain replication: writes enter at the head and flow down the chain, and reads are served by the tail, giving strong consistency with high throughput."
+    },
+    {
+      "text": "Statement-based replication breaks on nondeterminism like NOW() or RAND(); row-based (logical) replication ships the actual changed values instead."
+    },
+    {
+      "text": "Conflict resolution options: last-write-wins, merge with CRDTs, keep siblings for the app to resolve, or avoid conflicts by routing each key's writes to one leader."
+    },
+    {
+      "text": "Byzantine faults: nodes may lie or send conflicting messages. Tolerating f Byzantine nodes needs 3f+1 nodes, versus 2f+1 for simple crash faults."
+    },
+    {
+      "text": "PBFT (Practical Byzantine Fault Tolerance) needs O(n^2) messages per decision, which keeps it to small clusters; permissioned ledgers use its descendants."
+    },
+    {
+      "text": "Most datacenter systems assume crash faults, not Byzantine ones, since one trusted operator runs every node; checksums guard against corruption instead."
+    },
+    {
+      "text": "FLP impossibility: in a fully asynchronous system, no deterministic consensus protocol can guarantee termination if even a single process may crash."
+    },
+    {
+      "text": "Living with FLP: Paxos and Raft are always safe but only guarantee progress when the network behaves well enough, relying on timeouts and randomization."
+    },
+    {
+      "text": "Partial synchrony: the network may behave arbitrarily badly for a while but eventually delivers messages within some bound. Most consensus proofs assume this model."
+    },
+    {
+      "text": "Safety vs liveness: safety means nothing bad ever happens (two conflicting commits); liveness means something good eventually happens (a leader is elected)."
+    },
+    {
+      "text": "Tail at scale: if a server has a 1% chance of a slow response, a request fanning out to 100 such servers hits at least one slow reply about 63% of the time."
+    },
+    {
+      "text": "Hedged requests: send to one replica, and if no reply arrives by about the p95 latency, send a second copy and use whichever answers first. Small extra load, much shorter tail."
+    },
+    {
+      "text": "Tied requests: send to two replicas at once, each told about the other; whichever starts executing first cancels its twin, limiting duplicate work."
+    },
+    {
+      "text": "Tail latency sources: GC pauses, background compaction, noisy neighbors, queueing and CPU throttling. You can't eliminate them, so design to tolerate them."
+    },
+    {
+      "text": "Chandy-Lamport snapshot: marker messages flow through channels so each node records its state plus in-flight messages, capturing a consistent global snapshot without pausing."
+    },
+    {
+      "text": "Flink exactly-once: checkpoint barriers (Chandy-Lamport style) snapshot all operator state consistently, so after a failure the job rolls back and replays from source offsets."
+    },
+    {
+      "text": "End-to-end argument: dedupe and integrity checks must ultimately live at the endpoints; TCP's guarantees don't stop your application from processing a request twice."
+    },
+    {
+      "text": "Partitioning vs replication: partitioning splits data so each node holds a subset (scales capacity); replication copies it (scales reads, survives failures). Most systems do both."
+    },
+    {
+      "text": "Distributed snapshot reads need a global timestamp: Spanner uses TrueTime, CockroachDB uses HLC, and TiDB uses a central timestamp oracle."
+    },
+    {
+      "text": "Kafka ISR (in-sync replicas): with acks=all and min.insync.replicas=2, a write succeeds only once at least 2 in-sync replicas have it, else the producer gets an error."
+    },
+    {
+      "text": "Kafka unclean leader election: letting an out-of-sync replica become leader restores availability but loses messages; disabling it favors consistency."
+    },
+    {
+      "text": "Kafka log compaction keeps at least the latest record per key, turning a topic into a durable changelog that can rebuild a table's current state."
+    },
+    {
+      "text": "Kafka consumer group rebalancing: partitions are reassigned when consumers join or leave; cooperative (incremental) rebalancing avoids stopping the whole group."
+    },
+    {
+      "text": "KRaft: modern Kafka replaces ZooKeeper with a built-in Raft metadata quorum, simplifying operations and supporting far more partitions per cluster."
+    },
+    {
+      "text": "ZooKeeper ephemeral znodes disappear when the creating client's session ends, a natural building block for liveness tracking and leader election."
+    },
+    {
+      "text": "ZooKeeper lock recipe: each client creates a sequential znode and watches only the one just before it, so releasing the lock wakes one waiter, not a herd."
+    },
+    {
+      "text": "ZooKeeper writes are linearizable, but reads are served locally by any server and may be stale; call sync() before a read when you need the latest value."
+    },
+    {
+      "text": "etcd: a Raft-backed key-value store with MVCC revisions, watches and leases. Kubernetes keeps all of its cluster state in it."
+    },
+    {
+      "text": "etcd watches can resume from a specific revision, so a client never misses changes between listing and watching, unless that revision has been compacted away."
+    },
+    {
+      "text": "Spanner read-only transactions run lock-free at a snapshot timestamp on any sufficiently up-to-date replica, thanks to TrueTime-assigned commit timestamps."
+    },
+    {
+      "text": "Dynamo paper (2007): consistent hashing, sloppy quorums, hinted handoff, vector clocks, Merkle-tree anti-entropy and gossip, all to keep Amazon's cart always writable."
+    },
+    {
+      "text": "DynamoDB is not the Dynamo paper design: the service uses leader-based Multi-Paxos replication per partition and offers optional strongly consistent reads."
+    },
+    {
+      "text": "Cassandra combines Dynamo-style partitioning and replication with a Bigtable-style LSM storage engine, plus tunable consistency on each query."
+    },
+    {
+      "text": "Chubby: Google's Paxos-based lock service, built for coarse-grained locks held for hours or days, not fine-grained per-request locking."
+    },
+    {
+      "text": "CockroachDB splits data into ranges (512 MB by default), each replicated by its own Raft group, and runs transactions at serializable isolation by default."
+    }
+  ]
+}

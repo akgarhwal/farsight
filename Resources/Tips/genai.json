@@ -1,0 +1,395 @@
+{
+  "category": "GenAI",
+  "items": [
+    {
+      "text": "Self-attention lets every token weigh every other token in the sequence, so the model can link a pronoun to a noun many words earlier in a single step."
+    },
+    {
+      "text": "Attention computes softmax(QK^T / sqrt(d)) V: queries are matched against keys, and the resulting weights mix the values. The sqrt(d) scaling keeps the softmax from saturating."
+    },
+    {
+      "text": "Multi-head attention runs several attention operations in parallel, so different heads can track different relationships, like syntax in one head and coreference in another."
+    },
+    {
+      "text": "Decoder-only models use causal masking: each token can attend only to earlier positions, which is what makes left-to-right next-token prediction possible."
+    },
+    {
+      "text": "Standard self-attention cost grows quadratically with sequence length because every token attends to every other. Doubling the context roughly quadruples attention compute."
+    },
+    {
+      "text": "Transformers have no built-in sense of order. Positional encodings, such as rotary embeddings (RoPE), inject position so 'dog bites man' differs from 'man bites dog'."
+    },
+    {
+      "text": "An LLM is trained on next-token prediction: given the text so far, it outputs a probability distribution over its vocabulary for the next token."
+    },
+    {
+      "text": "Encoder-only models (bidirectional) suit classification and embeddings, decoder-only models suit open-ended generation, and encoder-decoder models suit translation."
+    },
+    {
+      "text": "FlashAttention computes exact attention in tiles that fit in fast on-chip memory, cutting slow memory traffic. Same math, much faster, far less memory."
+    },
+    {
+      "text": "Models read tokens, not characters or words. A token is often a word fragment; in English one token averages roughly four characters, or about three-quarters of a word."
+    },
+    {
+      "text": "Byte-pair encoding builds a vocabulary by repeatedly merging the most frequent adjacent symbol pairs, so common words become one token and rare words split into pieces."
+    },
+    {
+      "text": "Tokenization is why models struggle to count letters: they see 'strawberry' as a few multi-letter chunks, not as individual characters."
+    },
+    {
+      "text": "Non-English text and code often need more tokens per word than English prose, which means higher cost and less usable context for the same content."
+    },
+    {
+      "text": "Count tokens with the target model's own tokenizer. Model families tokenize the same text differently, so text that fits one limit may overflow another."
+    },
+    {
+      "text": "An embedding maps text to a dense vector so that similar meanings land close together. 'car' and 'automobile' end up near each other despite sharing no letters."
+    },
+    {
+      "text": "Cosine similarity measures the angle between two vectors and ignores their length. For unit-normalized vectors it produces the same ranking as the dot product."
+    },
+    {
+      "text": "Vectors from different embedding models live in different spaces and cannot be compared. Switching models means re-embedding the whole corpus."
+    },
+    {
+      "text": "Bi-encoders embed query and document separately, so documents can be precomputed. Cross-encoders read both together: more accurate, but too slow to run over a whole corpus."
+    },
+    {
+      "text": "Embedding similarity captures topical relatedness, not truth or negation. 'X is safe' and 'X is not safe' can produce very similar vectors."
+    },
+    {
+      "text": "Some embedding models are trained so vectors can be truncated to fewer dimensions (Matryoshka embeddings), trading a little accuracy for cheaper storage and search."
+    },
+    {
+      "text": "Semantic search often misses exact identifiers like error codes, SKUs or function names. Keyword search handles those well, so combine the two."
+    },
+    {
+      "text": "The context window is the total token budget for one call: system prompt, history, retrieved documents, tool definitions and the generated output all share it."
+    },
+    {
+      "text": "Lost in the middle: models tend to use information at the start and end of a long context more reliably than facts buried in the middle."
+    },
+    {
+      "text": "A big context window is not free. Every extra token adds latency and cost, and irrelevant text can distract the model and lower answer quality."
+    },
+    {
+      "text": "With long documents, put the material first and the question or instruction at the end; many models answer more accurately with that ordering."
+    },
+    {
+      "text": "Temperature divides the logits before softmax. Low values sharpen the distribution toward the top token; high values flatten it for more varied, riskier output."
+    },
+    {
+      "text": "Temperature 0 approximates greedy decoding, but outputs can still differ between runs because of server-side batching and floating-point nondeterminism."
+    },
+    {
+      "text": "Top-k sampling keeps only the k most likely tokens before sampling. It trims the long tail of nonsense but ignores how confident the model actually is."
+    },
+    {
+      "text": "Top-p (nucleus) sampling keeps the smallest set of tokens whose probabilities sum to p, so the candidate pool shrinks when the model is confident and grows when it is not."
+    },
+    {
+      "text": "Use low temperature for extraction, classification and code, where consistency matters; use higher temperature for brainstorming and creative variety."
+    },
+    {
+      "text": "Logprobs expose the probability the model assigned to each output token. Useful as a confidence signal, but they are not calibrated probabilities of being correct."
+    },
+    {
+      "text": "Pretraining teaches language and world knowledge by predicting the next token over massive text. The result is a powerful autocompleter, not yet a helpful assistant."
+    },
+    {
+      "text": "Supervised fine-tuning (SFT) trains a pretrained model on curated prompt-response pairs, teaching it to follow instructions and use a consistent format."
+    },
+    {
+      "text": "RLHF: humans rank pairs of responses, a reward model learns those preferences, and the LLM is then optimized with reinforcement learning to score highly on it."
+    },
+    {
+      "text": "RLAIF replaces human preference labels with judgments from an AI model, often guided by a written set of principles, so feedback can scale cheaply."
+    },
+    {
+      "text": "DPO trains directly on preference pairs (chosen vs rejected) with a simple classification-style loss, skipping the separate reward model and RL loop of RLHF."
+    },
+    {
+      "text": "Reward hacking: optimizing against a learned reward model can find outputs that score high without being better, such as longer or more flattering answers."
+    },
+    {
+      "text": "Fine-tuning is best for teaching format, style or narrow behavior. For fresh or frequently changing facts, retrieval is usually more reliable and easier to update."
+    },
+    {
+      "text": "Catastrophic forgetting: fine-tuning hard on a narrow dataset can erode abilities the model had before. Mix in general data or use lighter-weight methods."
+    },
+    {
+      "text": "Try prompting first, then retrieval, then fine-tuning. Each step costs more to build and maintain, so move up only when evals show you need to."
+    },
+    {
+      "text": "A few thousand clean, consistent fine-tuning examples usually beat a much larger noisy set. The model learns your mistakes as faithfully as your good examples."
+    },
+    {
+      "text": "LoRA, the most common PEFT (parameter-efficient fine-tuning) method, freezes the base weights and learns a small low-rank update, two thin matrices per adapted layer, so only a tiny fraction of parameters is trained."
+    },
+    {
+      "text": "LoRA adapters are small files. You can keep one base model loaded and swap adapters per task or per customer instead of hosting many full models."
+    },
+    {
+      "text": "A trained LoRA update can be merged into the base weights, so the fine-tuned model runs with zero extra inference latency."
+    },
+    {
+      "text": "QLoRA trains LoRA adapters on top of a base model quantized to 4 bits, making fine-tuning of large models feasible on a single GPU."
+    },
+    {
+      "text": "LoRA rank sets adapter capacity. Low ranks often suffice for style or format changes; bigger domain shifts may need a higher rank or more adapted layers."
+    },
+    {
+      "text": "Quantization stores weights in fewer bits, such as 8 or 4 instead of 16, cutting memory use and often speeding inference at a small accuracy cost."
+    },
+    {
+      "text": "Token-by-token generation is usually limited by memory bandwidth, not math, so smaller quantized weights that load faster often speed up decoding directly."
+    },
+    {
+      "text": "A few outlier values in activations make naive quantization lossy. Methods that rescale channels or keep outliers in higher precision preserve quality at low bit widths."
+    },
+    {
+      "text": "Memory rule of thumb: parameters times bytes per weight. A 7B-parameter model needs about 14 GB at 16-bit and about 3.5 GB at 4-bit, before KV cache and overhead."
+    },
+    {
+      "text": "Distillation trains a small student model to imitate a larger teacher, keeping much of the teacher's skill at a fraction of the inference cost."
+    },
+    {
+      "text": "Soft targets carry more signal than hard labels: the teacher's full probability distribution tells the student which wrong answers are almost right."
+    },
+    {
+      "text": "A practical distillation recipe: have a strong model produce high-quality outputs for your task, then fine-tune a small model on them and evaluate on real traffic."
+    },
+    {
+      "text": "Mixture of experts replaces one feed-forward block with many expert blocks plus a router that sends each token to only a few of them."
+    },
+    {
+      "text": "MoE decouples total parameters from compute per token: the model can hold many experts, but each token pays only for the few it is routed to."
+    },
+    {
+      "text": "MoE models still need memory for every expert even though each token uses only a few, so they are cheap in compute per token but heavy in memory."
+    },
+    {
+      "text": "KV cache: generation stores the keys and values of every previous token, so each new token computes attention against the cache instead of reprocessing the prefix."
+    },
+    {
+      "text": "KV cache memory grows linearly with sequence length and batch size. At long contexts it can rival or exceed the memory taken by the model weights."
+    },
+    {
+      "text": "Generation has two phases: prefill processes the whole prompt in parallel and is compute bound; decode emits one token at a time and is memory bound."
+    },
+    {
+      "text": "Time to first token is dominated by prompt prefill; the token rate after that is dominated by decode. Optimize whichever one your users actually feel."
+    },
+    {
+      "text": "Speculative decoding: a small draft model proposes several tokens, and the large model verifies them all in one parallel pass, keeping the longest accepted prefix."
+    },
+    {
+      "text": "With proper acceptance rules, speculative decoding yields exactly the large model's output distribution. It is a pure speed-up, not an approximation."
+    },
+    {
+      "text": "Few-shot prompting: include a handful of input-output examples. The model copies their format and style, so make the examples diverse and correct."
+    },
+    {
+      "text": "Examples are strong signals. If every few-shot example has a short answer or the same label, the model will over-produce that pattern."
+    },
+    {
+      "text": "Chain-of-thought: asking the model to reason step by step before answering improves multi-step math and logic by giving it tokens to think with."
+    },
+    {
+      "text": "Put the final answer after the reasoning, not before. An answer written first cannot benefit from reasoning that comes after it."
+    },
+    {
+      "text": "Structured output: supply a JSON schema and use the provider's schema or constrained mode where available, instead of hoping free text will parse."
+    },
+    {
+      "text": "Constrained decoding masks invalid tokens at each step so the output always matches a grammar or schema. It guarantees valid syntax, not correct content."
+    },
+    {
+      "text": "System prompts set the persistent role, rules and tone for a conversation. Keep them focused; a pile of conflicting rules degrades compliance with all of them."
+    },
+    {
+      "text": "Delimiters like XML tags or triple quotes separate instructions from data, so the model can tell which text to follow and which text to process."
+    },
+    {
+      "text": "Say what to do, not just what to avoid. 'Answer in plain flowing prose' works better than 'Do not use markdown'."
+    },
+    {
+      "text": "Explain why a rule exists. 'Keep it short, this is read aloud on a phone' helps the model generalize better than a bare 'be brief'."
+    },
+    {
+      "text": "Give the model an out: explicitly allow 'I don't know' or 'not in the document' to reduce invented answers when the information is missing."
+    },
+    {
+      "text": "Prefilling the start of the assistant's reply, such as an opening brace, strongly steers the output format on APIs that support it."
+    },
+    {
+      "text": "RAG retrieves relevant documents at query time and places them in the prompt, grounding answers in your own data without retraining the model."
+    },
+    {
+      "text": "Chunking: split documents into passages small enough to be specific but large enough to stand alone. Split on headings or paragraphs, not mid-sentence."
+    },
+    {
+      "text": "Chunk overlap repeats a little text across chunk boundaries so a fact that straddles two chunks can still be retrieved intact."
+    },
+    {
+      "text": "Contextual chunking prepends a short description of the source document to each chunk, so 'revenue grew 3%' still says which company and which year."
+    },
+    {
+      "text": "BM25 ranks documents by keyword matches, weighting rare terms more and saturating repeated ones. It is fast, needs no training and excels at exact terms."
+    },
+    {
+      "text": "Hybrid search runs BM25 and dense vector search side by side and fuses the results, catching both exact keywords and paraphrased meaning."
+    },
+    {
+      "text": "Reciprocal rank fusion merges ranked lists by summing 1/(k + rank) for each document, so it combines retrievers without calibrating their scores."
+    },
+    {
+      "text": "Reranking: retrieve a broad candidate set cheaply, then rescore the top results with a cross-encoder so the truly relevant passages come first."
+    },
+    {
+      "text": "Metadata filters on date, product, language or permissions narrow retrieval to the right slice, preventing semantically similar but wrong results."
+    },
+    {
+      "text": "Enforce access control at retrieval time. If a user may not see a document, it must never reach the prompt, because the model may quote it."
+    },
+    {
+      "text": "Citation grounding: have the model cite a chunk ID for each claim, then check that the cited text actually supports the claim before showing it."
+    },
+    {
+      "text": "Evaluate retrieval separately from generation. If the right chunk never reaches the top results, no amount of prompt tuning can fix the answer."
+    },
+    {
+      "text": "HyDE: have the model write a hypothetical answer, embed it, and search with that vector. Answers often resemble the target documents more than questions do."
+    },
+    {
+      "text": "Exact nearest-neighbor search compares a query to every vector. Approximate indexes trade a little recall for search that is orders of magnitude faster."
+    },
+    {
+      "text": "HNSW builds a layered graph of vectors: search starts on sparse upper layers for long hops, then descends to denser layers to refine the nearest neighbors."
+    },
+    {
+      "text": "HNSW tuning: higher M and efConstruction build a better graph at more memory and build time; higher efSearch raises recall at more query time."
+    },
+    {
+      "text": "IVF clusters vectors around centroids and searches only the few clusters nearest the query. The nprobe setting trades recall for speed."
+    },
+    {
+      "text": "Filtered vector search is tricky: filtering after the approximate search can leave too few results. Check how your database combines filters with the index."
+    },
+    {
+      "text": "A golden set is a curated collection of inputs with known good outputs or grading criteria. It is the foundation for every LLM quality decision."
+    },
+    {
+      "text": "Build golden sets from real user traffic and past failures, not only invented examples. Include edge cases, adversarial inputs and tricky negatives."
+    },
+    {
+      "text": "LLM-as-judge pitfalls: judges tend to favor longer answers, whichever option comes first, and outputs from their own model family. Randomize order and spot-check."
+    },
+    {
+      "text": "Give an LLM judge a specific rubric and ask for its reasoning before the verdict. Clear pass/fail criteria are more reliable than 1-to-10 scores."
+    },
+    {
+      "text": "Calibrate an LLM judge by measuring its agreement with human labels on a sample before trusting it to grade at scale."
+    },
+    {
+      "text": "Regression testing: rerun the eval suite on every prompt, model or retrieval change. A fix for one case often silently breaks another."
+    },
+    {
+      "text": "Benchmark contamination: if test questions leaked into training data, scores overstate real ability. Private, task-specific evals are more trustworthy."
+    },
+    {
+      "text": "Read the outputs. Aggregate scores hide failure patterns that become obvious after reviewing a few dozen real responses by hand."
+    },
+    {
+      "text": "Hallucinations happen because models generate plausible continuations, not verified facts. Fluency and confident tone are not evidence of accuracy."
+    },
+    {
+      "text": "Ask the model to extract verbatim quotes from the sources before answering, then answer only from those quotes. Claims with no supporting quote get dropped."
+    },
+    {
+      "text": "Models are especially prone to fabricating specifics: citations, URLs, quotes, statistics and API names. Verify these mechanically, not by eye."
+    },
+    {
+      "text": "Consistency check: ask the same question several times at nonzero temperature. Facts that change between samples are less likely to be true."
+    },
+    {
+      "text": "Offload what models do poorly: use a calculator for math, search for current events and a database for exact records instead of trusting recall."
+    },
+    {
+      "text": "Knowledge cutoff: a model knows nothing that happened after its training data was collected. Supply recent facts in the context."
+    },
+    {
+      "text": "Prompt caching reuses the already-processed prefix of a prompt across calls, cutting cost and time to first token for repeated instructions or documents."
+    },
+    {
+      "text": "Prompt caches match exact prefixes. Put stable content first (instructions, tools, documents) and variable content last, or every call misses the cache."
+    },
+    {
+      "text": "A timestamp or request ID near the top of a prompt silently defeats prompt caching, because everything after the first changed token must be recomputed."
+    },
+    {
+      "text": "Output tokens usually cost more and take longer than input tokens because they are generated one at a time. Asking for concise output saves both."
+    },
+    {
+      "text": "Streaming does not make generation faster, but showing tokens as they arrive greatly improves perceived latency for users."
+    },
+    {
+      "text": "Batch APIs trade latency for lower cost. Use them for offline jobs like evals, backfills and bulk classification that nobody is waiting on."
+    },
+    {
+      "text": "Measure cost per successful task, not per call. A cheap model that needs three retries can cost more than a stronger one that succeeds once."
+    },
+    {
+      "text": "Semantic caching returns a stored answer for queries similar to past ones. Great for repetitive FAQs, risky when a small wording change alters the meaning."
+    },
+    {
+      "text": "Prompt injection: text the model processes contains instructions that override yours. Direct injection comes from the user; indirect injection hides in content the model reads."
+    },
+    {
+      "text": "In RAG, one poisoned document in the index can inject instructions into every answer that retrieves it. Treat indexed content as untrusted input."
+    },
+    {
+      "text": "Jailbreaks use role-play, hypotheticals, unusual encodings or long multi-turn pressure to push a model past its safety training."
+    },
+    {
+      "text": "Defend against jailbreaks in layers: model safety training plus input and output classifiers, rate limits and monitoring. No single layer is enough."
+    },
+    {
+      "text": "Anything in the prompt, including the system prompt, can potentially be extracted by a determined user. Never put secrets or keys there."
+    },
+    {
+      "text": "Redact or pseudonymize PII before sending text to a model or writing it to logs, and restore it afterward only where it is truly needed."
+    },
+    {
+      "text": "Validate model output before it reaches other systems. Treat generated SQL, HTML or shell commands as untrusted input to prevent downstream injection."
+    },
+    {
+      "text": "Markdown images in model output can exfiltrate data: an injected instruction can encode secrets into an image URL that the client fetches automatically."
+    },
+    {
+      "text": "Vision-language models split an image into patches, encode each patch as a vector, and feed those vectors to the language model much like tokens."
+    },
+    {
+      "text": "Images consume context tokens too, often scaling with resolution. Downscale images to the level of detail the task actually needs."
+    },
+    {
+      "text": "Vision models can misread small text, miscount objects and misjudge precise positions. Crop and enlarge the region of interest for fine details."
+    },
+    {
+      "text": "CLIP-style models train image and text encoders together so matching pairs land close in one shared space, enabling text-to-image search and zero-shot labels."
+    },
+    {
+      "text": "Diffusion models learn to reverse noise: training corrupts images with noise step by step, and the model learns to predict and remove that noise."
+    },
+    {
+      "text": "Image generation starts from pure random noise and denoises it over many steps, with the text prompt guiding each step toward a matching image."
+    },
+    {
+      "text": "Latent diffusion denoises in the compressed latent space of an autoencoder rather than raw pixels, making generation far cheaper."
+    },
+    {
+      "text": "Classifier-free guidance compares predictions with and without the prompt and pushes further toward the prompt. Higher guidance: more literal, less diverse."
+    }
+  ]
+}
