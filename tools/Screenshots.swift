@@ -159,6 +159,70 @@ struct Screenshots {
         }
     }
 
+    struct MenuScreen: View {
+        let model: TimerModel
+
+        var body: some View {
+            ZStack(alignment: .topTrailing) {
+                LinearGradient(
+                    colors: [Color(red: 0.06, green: 0.05, blue: 0.14), Color(red: 0.10, green: 0.08, blue: 0.22)],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+                .ignoresSafeArea()
+
+                VStack(spacing: 0) {
+                    HStack(spacing: 16) {
+                        HStack(spacing: 18) {
+                            Image(systemName: "applelogo")
+                                .font(.system(size: 14))
+                            Text("Farsight").bold()
+                            Text("File")
+                            Text("Edit")
+                            Text("View")
+                            Text("Window")
+                            Text("Help")
+                        }
+                        .font(.system(size: 13, weight: .regular))
+                        .foregroundStyle(.white.opacity(0.85))
+
+                        Spacer()
+
+                        HStack(spacing: 14) {
+                            HStack(spacing: 6) {
+                                Image(systemName: "eye")
+                                Text("25:00").monospacedDigit()
+                            }
+                            .font(.system(size: 12, weight: .semibold))
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 3)
+                            .background(.white.opacity(0.2), in: RoundedRectangle(cornerRadius: 5))
+
+                            Image(systemName: "wifi")
+                            Image(systemName: "battery.100")
+                            Text("Thu Oct 1  4:53 PM")
+                        }
+                        .font(.system(size: 13))
+                        .foregroundStyle(.white.opacity(0.9))
+                    }
+                    .padding(.horizontal, 20)
+                    .frame(height: 32)
+                    .background(.ultraThinMaterial)
+
+                    HStack {
+                        Spacer()
+                        MenuView(model: model)
+                            .background(Color(nsColor: .windowBackgroundColor), in: RoundedRectangle(cornerRadius: 10))
+                            .shadow(color: .black.opacity(0.6), radius: 24, x: 0, y: 12)
+                            .padding(.trailing, 90)
+                            .padding(.top, 8)
+                    }
+                    Spacer()
+                }
+            }
+        }
+    }
+
     static func render<V: View>(_ view: V, size: CGSize?, to path: String) {
         let host = NSHostingView(rootView: view.background(Color(nsColor: .windowBackgroundColor)))
         host.appearance = NSAppearance(named: .darkAqua)
