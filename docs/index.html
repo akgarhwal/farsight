@@ -4,14 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Farsight — Look Far Away. Return with an Insight.</title>
-  <meta name="description" content="A minimalist, zero-CPU macOS menu bar app that protects developers' vision with scientific 20-20-20 breaks and system design micro-learning cards.">
-  <meta name="keywords" content="macOS app, eye care, developer tools, pomodoro, computer vision syndrome, 20-20-20 rule, system design, swift">
+  <meta name="description" content="A minimalist, zero-CPU macOS menu bar app with 25-min focus / 5-min eye breaks, 20-foot gaze rest, and 1,000+ system design micro-learning cards.">
+  <meta name="keywords" content="macOS app, eye care, developer tools, pomodoro timer, 25 min work 5 min break, system design, swift">
   
   <!-- Open Graph / Social Meta -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://akgarhwal.github.io/farsight/">
-  <meta property="og:title" content="Farsight — macOS Eye Care & Micro-Learning for Engineers">
-  <meta property="og:description" content="Combat Digital Eye Strain with zero-friction macOS rest breaks and 1,000+ curated system design and tech insight cards.">
+  <meta property="og:title" content="Farsight — macOS 25/5 Eye Care & Micro-Learning for Engineers">
+  <meta property="og:description" content="25-min focus blocks, 5-min full-screen eye rest with 20-foot relaxation, and 1,000+ system design cards. Built for macOS with 0% CPU footprint.">
   <meta property="og:image" content="https://akgarhwal.github.io/farsight/break-tip.png">
   
   <link rel="icon" type="image/png" href="icon.png">
@@ -970,14 +970,14 @@
 
         <div class="stat-card">
           <div>
-            <div class="stat-num">20-20-20</div>
-            <div class="stat-label">Proven Focal Relaxation</div>
+            <div class="stat-num">25 / 5m</div>
+            <div class="stat-label">Default Focus & Rest Cadence</div>
             <p class="stat-detail">
-              Resting your gaze 20 feet away for 20 seconds relaxes the eye's ciliary muscle accommodation back to optical infinity, instantly resetting the ocular tear film.
+              Farsight is pre-tuned out of the box with <strong>25 minutes of focus</strong> and a <strong>5-minute break</strong> instructing you to relax your eyes 20 feet away. Durations are customizable from 1 to 180 minutes.
             </p>
           </div>
           <div class="stat-source">
-            <span>Source:</span> <a href="https://www.aao.org/eye-health/tips-prevention/computer-usage" target="_blank" rel="noopener">AAO Clinical Practice Standard</a>
+            <span>App Defaults:</span> <code>25 min focus · 5 min break · 20 ft rest</code>
           </div>
         </div>
       </div>
@@ -1069,6 +1069,22 @@
         </div>
 
         <div class="feature-card">
+          <div class="feature-icon">⏱️</div>
+          <h3>25m / 5m Defaults & Persistence</h3>
+          <p>
+            Pre-tuned with 25-min focus blocks and 5-min eye breaks. Stepper controls let you customize work (1–180 min) and break (1–60 min) with instant <code>UserDefaults</code> persistence.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🔔</div>
+          <h3>Subtle Native Audio Alerts</h3>
+          <p>
+            Gentle macOS system sounds notify you without annoying sirens: a soft <em>Glass</em> chime announces break time, and a crisp <em>Hero</em> fanfare signals the return to deep work.
+          </p>
+        </div>
+
+        <div class="feature-card">
           <div class="feature-icon">🛡️</div>
           <h3>Local, Private & Offline</h3>
           <p>
@@ -1097,6 +1113,18 @@
           </thead>
           <tbody>
             <tr>
+              <td>Default Cadence</td>
+              <td class="highlight check-yes">25m Work / 5m Break</td>
+              <td>Varies</td>
+              <td>Manual Set</td>
+            </tr>
+            <tr>
+              <td>Eye Care Prompt</td>
+              <td class="highlight check-yes">20-Foot Gaze Rest</td>
+              <td class="check-no">None</td>
+              <td class="check-no">None</td>
+            </tr>
+            <tr>
               <td>Memory Footprint</td>
               <td class="highlight check-yes">&lt; 25 MB</td>
               <td class="check-no">350 MB+</td>
@@ -1121,10 +1149,10 @@
               <td class="check-no">No</td>
             </tr>
             <tr>
-              <td>Notch-safe Spotlight Reopen</td>
-              <td class="highlight check-yes">Yes</td>
-              <td class="check-no">No</td>
-              <td class="check-no">No</td>
+              <td>Audio Alerts</td>
+              <td class="highlight check-yes">Native Glass &amp; Hero</td>
+              <td>Harsh Synthesized</td>
+              <td>Loud Ringtones</td>
             </tr>
             <tr>
               <td>Zero Telemetry & Offline</td>
