@@ -15,18 +15,21 @@ work timer (default **25 min**) with a break (default **5 min**). During a break
 a full-screen overlay covers every display until the break ends or you skip it.
 
 <p align="center">
-  <img src="docs/break-quote.png" alt="Break screen showing a countdown and a Donald Knuth quote" width="720">
+  <img src="docs/demo.gif" alt="Farsight demo walkthrough: menu bar controls and full-screen eye breaks" width="720">
 </p>
 
-<p align="center">
-  <img src="docs/menu.png" alt="Menu bar popover with timer controls, durations and launch at login" width="720">
-</p>
+<sub>Preview cycles through menu controls and break cards every 3 seconds. Rendered from the app's own views by `./screenshots.sh`.</sub>
 
-<p align="center">
-  <img src="docs/break-tip.png" alt="Break screen showing a distributed systems learning card" width="720">
-</p>
-
-<sub>Screenshots are rendered from the app's own views by `./screenshots.sh`.</sub>
+<details>
+  <summary><strong>View static screenshots</strong></summary>
+  <br>
+  <p align="center">
+    <img src="docs/menu.png" alt="Menu bar popover with timer controls, durations and launch at login" width="720">
+  </p>
+  <p align="center">
+    <img src="docs/break-quote.png" alt="Break screen showing a countdown and a Donald Knuth quote" width="720">
+  </p>
+</details>
 
 - Each break shows a random card from 1,000+ quotes and learning tips: tech and
   travel quotes, tech tips, system design, distributed systems, algorithms,

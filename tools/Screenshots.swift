@@ -1,7 +1,9 @@
 import AppKit
 import SwiftUI
+import ImageIO
+import UniformTypeIdentifiers
 
-/// Renders the app's real SwiftUI views off-screen to PNGs for the README.
+/// Renders the app's real SwiftUI views off-screen to PNGs and creates an animated preview GIF for the README.
 /// Built and run by screenshots.sh; nothing is shown on screen.
 @main
 struct Screenshots {
@@ -37,7 +39,61 @@ struct Screenshots {
             size: CGSize(width: 1440, height: 900),
             to: "\(out)/break-tip.png"
         )
+
+        createGIF(
+            from: [
+                "\(out)/menu.png",
+                "\(out)/break-quote.png",
+                "\(out)/break-tip.png"
+            ],
+            to: "\(out)/demo.gif",
+            frameDelay: 3.0
+        )
     }
+
+    static func createGIF(from imagePaths: [String], to outputPath: String, frameDelay: Double) {
+        let outputURL = URL(fileURLWithPath: outputPath)
+        guard let destination = CGImageDestinationCreateWithURL(
+            outputURL as CFURL,
+            UTType.gif.identifier as CFString,
+            imagePaths.count,
+            nil
+        ) else {
+            print("Failed to create CGImageDestination for \(outputPath)")
+            return
+        }
+
+        let fileProps: [CFString: Any] = [
+            kCGImagePropertyGIFDictionary: [
+                kCGImagePropertyGIFLoopCount: 0
+            ]
+        ]
+        CGImageDestinationSetProperties(destination, fileProps as CFDictionary)
+
+        let frameProps: [CFString: Any] = [
+            kCGImagePropertyGIFDictionary: [
+                kCGImagePropertyGIFDelayTime: frameDelay,
+                kCGImagePropertyGIFUnclampedDelayTime: frameDelay
+            ]
+        ]
+
+        for path in imagePaths {
+            let url = URL(fileURLWithPath: path)
+            guard let source = CGImageSourceCreateWithURL(url as CFURL, nil),
+                  let image = CGImageSourceCreateImageAtIndex(source, 0, nil) else {
+                print("Failed to load image from \(path)")
+                continue
+            }
+            CGImageDestinationAddImage(destination, image, frameProps as CFDictionary)
+        }
+
+        if CGImageDestinationFinalize(destination) {
+            print("wrote \(outputPath) (animated GIF, \(imagePaths.count) frames, \(frameDelay)s delay)")
+        } else {
+            print("Failed to finalize GIF at \(outputPath)")
+        }
+    }
+
 
     struct MenuScreen: View {
         let model: TimerModel
