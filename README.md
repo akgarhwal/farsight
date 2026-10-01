@@ -6,6 +6,10 @@
 
 *Look far away, come back with an insight.*
 
+<p align="center">
+  <a href="https://akgarhwal.github.io/farsight/"><strong>🌐 Visit Official Website & Live Demo</strong></a>
+</p>
+
 A tiny macOS menu bar app that reminds you to rest your eyes. It alternates a
 work timer (default **25 min**) with a break (default **5 min**). During a break
 a full-screen overlay covers every display until the break ends or you skip it.
