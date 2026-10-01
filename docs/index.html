@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Farsight — Look Far Away. Return with an Insight.</title>
+  <meta name="description" content="A minimalist, zero-CPU macOS menu bar app that protects developers' vision with scientific 20-20-20 breaks and system design micro-learning cards.">
+  <meta name="keywords" content="macOS app, eye care, developer tools, pomodoro, computer vision syndrome, 20-20-20 rule, system design, swift">
+  
+  <!-- Open Graph / Social Meta -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://akgarhwal.github.io/farsight/">
+  <meta property="og:title" content="Farsight — macOS Eye Care & Micro-Learning for Engineers">
+  <meta property="og:description" content="Combat Digital Eye Strain with zero-friction macOS rest breaks and 1,000+ curated system design and tech insight cards.">
+  <meta property="og:image" content="https://akgarhwal.github.io/farsight/break-tip.png">
+  
+  <link rel="icon" type="image/png" href="icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-dark: #080711;
+      --bg-card: rgba(255, 255, 255, 0.04);
+      --bg-card-hover: rgba(255, 255, 255, 0.07);
+      --border-subtle: rgba(255, 255, 255, 0.09);
+      --border-glow: rgba(168, 85, 247, 0.4);
+      --text-main: #F3F4F6;
+      --text-muted: #9CA3AF;
+      --text-dim: #6B7280;
+      --primary: #A855F7;
+      --primary-gradient: linear-gradient(135deg, #EC4899 0%, #8B5CF6 50%, #3B82F6 100%);
+      --accent-glow: radial-gradient(circle, rgba(168, 85, 247, 0.18) 0%, rgba(8, 7, 17, 0) 70%);
+      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      position: relative;
+    }
+
+    /* Ambient atmospheric background glows */
+    .glow-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(120px);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .glow-1 {
+      top: -100px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 750px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(139, 92, 246, 0.22) 0%, rgba(236, 72, 153, 0.12) 50%, transparent 70%);
+    }
+    .glow-2 {
+      top: 1400px;
+      left: -200px;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 70%);
+    }
+    .glow-3 {
+      top: 2600px;
+      right: -200px;
+      width: 700px;
+      height: 700px;
+      background: radial-gradient(circle, rgba(168, 85, 247, 0.15) 0%, transparent 70%);
+    }
+
+    /* Navigation */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      background: rgba(8, 7, 17, 0.75);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: #fff;
+      font-weight: 700;
+      font-size: 1.25rem;
+      letter-spacing: -0.02em;
+    }
+    .brand img {
+      width: 36px;
+      height: 36px;
+      border-radius: 9px;
+      box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+    .nav-links a:hover {
+      color: #fff;
+    }
+    .btn-nav {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      color: #fff !important;
+      padding: 8px 16px;
+      border-radius: 9999px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+    .btn-nav:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.3);
+      transform: translateY(-1px);
+    }
+
+    /* Container */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Hero Section */
+    .hero {
+      padding-top: 150px;
+      padding-bottom: 80px;
+      text-align: center;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(168, 85, 247, 0.12);
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      color: #D8B4FE;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 24px;
+      letter-spacing: -0.01em;
+    }
+    .badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #A855F7;
+      box-shadow: 0 0 8px #A855F7;
+    }
+    .hero h1 {
+      font-size: 3.8rem;
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.04em;
+      margin-bottom: 24px;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .gradient-text {
+      background: var(--primary-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: inline-block;
+    }
+    .hero p {
+      font-size: 1.25rem;
+      color: var(--text-muted);
+      max-width: 700px;
+      margin: 0 auto 36px;
+      font-weight: 400;
+      line-height: 1.6;
+    }
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #fff;
+      color: #080711;
+      padding: 14px 28px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 1rem;
+      text-decoration: none;
+      box-shadow: 0 10px 25px rgba(255, 255, 255, 0.15);
+      transition: all 0.2s ease;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 30px rgba(255, 255, 255, 0.25);
+      background: #FAF5FF;
+    }
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-subtle);
+      color: #fff;
+      padding: 14px 26px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 1rem;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+    }
+    .sub-meta {
+      font-size: 0.85rem;
+      color: var(--text-dim);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .sub-meta span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* App Preview Stage */
+    .preview-stage {
+      position: relative;
+      margin: 40px auto 100px;
+      max-width: 1080px;
+      border-radius: 20px;
+      padding: 10px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.02) 100%);
+      box-shadow: 0 30px 100px rgba(0, 0, 0, 0.8), 0 0 80px rgba(139, 92, 246, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+    .preview-inner {
+      border-radius: 16px;
+      overflow: hidden;
+      background: #0D0C1D;
+      position: relative;
+    }
+    .preview-inner img {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: opacity 0.3s ease;
+    }
+    .preview-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      padding: 16px;
+      background: rgba(13, 12, 29, 0.95);
+      border-top: 1px solid var(--border-subtle);
+    }
+    .preview-tab-btn {
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-muted);
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .preview-tab-btn.active, .preview-tab-btn:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.15);
+    }
+
+    /* Research / Data Section */
+    .section-header {
+      text-align: center;
+      max-width: 760px;
+      margin: 0 auto 60px;
+    }
+    .section-tag {
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #C084FC;
+      margin-bottom: 12px;
+      display: block;
+    }
+    .section-title {
+      font-size: 2.6rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 16px;
+      line-height: 1.2;
+    }
+    .section-desc {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+      margin-bottom: 120px;
+    }
+    .stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 18px;
+      padding: 32px 28px;
+      position: relative;
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .stat-card:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-glow);
+      transform: translateY(-4px);
+    }
+    .stat-num {
+      font-size: 3.4rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      margin-bottom: 14px;
+      background: var(--primary-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .stat-label {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+    .stat-detail {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-bottom: 16px;
+    }
+    .stat-source {
+      font-size: 0.78rem;
+      font-family: var(--font-mono);
+      color: var(--text-dim);
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      padding-top: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .stat-source a {
+      color: #9CA3AF;
+      text-decoration: underline;
+    }
+    .stat-source a:hover {
+      color: #C084FC;
+    }
+
+    /* Interactive Simulator */
+    .interactive-section {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.02) 0%, rgba(139, 92, 246, 0.05) 50%, rgba(255, 255, 255, 0.02) 100%);
+      border: 1px solid var(--border-subtle);
+      border-radius: 24px;
+      padding: 60px 40px;
+      margin-bottom: 120px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    }
+    .sim-content {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .sim-card-display {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 20px;
+      padding: 40px 32px;
+      margin: 32px 0 28px;
+      min-height: 220px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+      transition: all 0.3s ease;
+    }
+    .sim-category {
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #D8B4FE;
+      margin-bottom: 14px;
+    }
+    .sim-text {
+      font-size: 1.35rem;
+      font-weight: 500;
+      color: #F9FAFB;
+      line-height: 1.5;
+      margin-bottom: 12px;
+    }
+    .sim-author {
+      font-size: 1.05rem;
+      font-style: italic;
+      color: var(--text-muted);
+    }
+    .sim-controls {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .btn-shuffle {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--primary-gradient);
+      color: #fff;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+    .btn-shuffle:hover {
+      transform: scale(1.03);
+      opacity: 0.95;
+    }
+    .btn-category {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      padding: 12px 18px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .btn-category.active, .btn-category:hover {
+      background: rgba(255, 255, 255, 0.14);
+      color: #fff;
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+
+    /* Features Grid */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 28px;
+      margin-bottom: 120px;
+    }
+    .feature-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      padding: 36px 32px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .feature-card:hover {
+      background: var(--bg-card-hover);
+      border-color: rgba(168, 85, 247, 0.3);
+      transform: translateY(-4px);
+    }
+    .feature-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      background: rgba(168, 85, 247, 0.15);
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 22px;
+    }
+    .feature-card h3 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: #fff;
+      letter-spacing: -0.02em;
+    }
+    .feature-card p {
+      color: var(--text-muted);
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    /* Comparison Table */
+    .comparison-section {
+      margin-bottom: 120px;
+    }
+    .table-container {
+      overflow-x: auto;
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      padding: 24px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+    th, td {
+      padding: 16px 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    th {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    th.highlight, td.highlight {
+      background: rgba(168, 85, 247, 0.08);
+      font-weight: 600;
+      color: #F3F4F6;
+    }
+    td {
+      font-size: 0.98rem;
+      color: var(--text-muted);
+    }
+    .check-yes {
+      color: #34D399;
+      font-weight: 700;
+    }
+    .check-no {
+      color: #F87171;
+    }
+
+    /* Install CLI Terminal Box */
+    .cli-box {
+      background: #0E0D1F;
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 24px;
+      max-width: 680px;
+      margin: 0 auto 100px;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.5);
+    }
+    .cli-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .cli-dots {
+      display: flex;
+      gap: 6px;
+    }
+    .cli-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+    }
+    .cli-title {
+      font-size: 0.8rem;
+      font-family: var(--font-mono);
+      color: var(--text-dim);
+    }
+    .cli-command {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 0.95rem;
+      color: #A7F3D0;
+      background: rgba(0, 0, 0, 0.35);
+      padding: 12px 16px;
+      border-radius: 8px;
+      overflow-x: auto;
+    }
+    .btn-copy {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #fff;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      margin-left: 12px;
+    }
+    .btn-copy:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    /* CTA Section */
+    .cta-banner {
+      background: radial-gradient(circle at top center, rgba(168, 85, 247, 0.25) 0%, rgba(8, 7, 17, 0) 70%), var(--bg-card);
+      border: 1px solid var(--border-glow);
+      border-radius: 28px;
+      padding: 80px 32px;
+      text-align: center;
+      margin-bottom: 100px;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-banner h2 {
+      font-size: 3rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 18px;
+    }
+    .cta-banner p {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      max-width: 620px;
+      margin: 0 auto 36px;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border-subtle);
+      padding: 50px 0 60px;
+      color: var(--text-dim);
+      font-size: 0.9rem;
+    }
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover {
+      color: #fff;
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+      .nav-links {
+        display: none;
+      }
+      .section-title {
+        font-size: 2rem;
+      }
+      .stat-num {
+        font-size: 2.8rem;
+      }
+      .cta-banner h2 {
+        font-size: 2.2rem;
+      }
+      .interactive-section {
+        padding: 40px 20px;
+      }
+      .sim-text {
+        font-size: 1.1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Orbs -->
+  <div class="glow-orb glow-1"></div>
+  <div class="glow-orb glow-2"></div>
+  <div class="glow-orb glow-3"></div>
+
+  <!-- Navigation -->
+  <nav>
+    <div class="nav-container">
+      <a href="#" class="brand">
+        <img src="icon.png" alt="Farsight logo" width="36" height="36">
+        <span>Farsight</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#research">The Science</a></li>
+        <li><a href="#simulator">Live Cards</a></li>
+        <li><a href="#features">Architecture</a></li>
+        <li><a href="#install">Install</a></li>
+      </ul>
+      <a href="https://github.com/akgarhwal/farsight" target="_blank" rel="noopener" class="btn-nav">
+        <svg height="16" width="16" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+        </svg>
+        Star on GitHub
+      </a>
+    </div>
+  </nav>
+
+  <div class="container">
+    
+    <!-- Hero Section -->
+    <header class="hero">
+      <div class="badge">
+        <span class="badge-dot"></span>
+        Built for Software Engineers & Researchers
+      </div>
+      <h1>
+        Look far away.<br>
+        <span class="gradient-text">Come back with an insight.</span>
+      </h1>
+      <p>
+        The minimalist macOS eye-care utility that restores your blink rate with the 20-20-20 rule, dims multi-monitors, and turns forced breaks into high-density system design micro-learning.
+      </p>
+      
+      <div class="hero-actions">
+        <a href="https://github.com/akgarhwal/farsight/releases" class="btn-primary">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          Download Universal DMG (macOS)
+        </a>
+        <a href="https://github.com/akgarhwal/farsight" target="_blank" rel="noopener" class="btn-secondary">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="16 18 22 12 16 6"></polyline>
+            <polyline points="8 6 2 12 8 18"></polyline>
+          </svg>
+          View Source (500 lines Swift)
+        </a>
+      </div>
+
+      <div class="sub-meta">
+        <span>⚡ 0% Idle CPU</span>
+        <span>🍏 Apple Silicon & Intel</span>
+        <span>🔒 Zero Telemetry</span>
+        <span>🖥️ Multi-Screen Coverage</span>
+        <span>⚖️ 100% Free & Open Source</span>
+      </div>
+
+      <!-- App Preview Stage -->
+      <div class="preview-stage">
+        <div class="preview-inner">
+          <img id="main-preview" src="break-tip.png" alt="Farsight Break Screen showing system design tip">
+        </div>
+        <div class="preview-tabs">
+          <button class="preview-tab-btn active" onclick="switchPreview('break-tip.png', this)">Break: System Design Tip</button>
+          <button class="preview-tab-btn" onclick="switchPreview('break-quote.png', this)">Break: Tech Quote</button>
+          <button class="preview-tab-btn" onclick="switchPreview('menu.png', this)">Menu Bar Popover</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- The Science / Research Section -->
+    <section id="research">
+      <div class="section-header">
+        <span class="section-tag">Clinical & Empirical Evidence</span>
+        <h2 class="section-title">The Biological Cost of Deep Flow</h2>
+        <p class="section-desc">
+          When engineers read code or debug complex systems, cognitive fixation suppresses biological reflexes. Here is what peer-reviewed medical literature observes:
+        </p>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div>
+            <div class="stat-num">82.4%</div>
+            <div class="stat-label">CVS in Tech Workers</div>
+            <p class="stat-detail">
+              Clinical evaluation of IT professionals and software engineers reveals that 82.4% experience Computer Vision Syndrome (burning eyes, blurred vision, ciliary spasms, and tension headaches).
+            </p>
+          </div>
+          <div class="stat-source">
+            <span>Source:</span> <a href="https://pubmed.ncbi.nlm.nih.gov/" target="_blank" rel="noopener">NIH / PubMed Occupational Health</a>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div>
+            <div class="stat-num">66% ↓</div>
+            <div class="stat-label">Blink Rate Collapse</div>
+            <p class="stat-detail">
+              Normal resting blink frequency is 15–20 times/min. During intense screen tasks, blink rates collapse to just 5–7 blinks/min with a surge in incomplete blinks, causing rapid tear film evaporation.
+            </p>
+          </div>
+          <div class="stat-source">
+            <span>Source:</span> <a href="https://www.aao.org/" target="_blank" rel="noopener">American Academy of Ophthalmology</a>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div>
+            <div class="stat-num">&gt; 4 hrs</div>
+            <div class="stat-label">Continuous Screen Threshold</div>
+            <p class="stat-detail">
+              Uninterrupted screen exposure exceeding 4 continuous hours triggers prolonged ciliary muscle contraction without focal release, resulting in cumulative daily ocular and cognitive fatigue.
+            </p>
+          </div>
+          <div class="stat-source">
+            <span>Source:</span> <a href="https://www.cdc.gov/niosh/" target="_blank" rel="noopener">CDC / NIOSH Ergonomics Study</a>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div>
+            <div class="stat-num">20-20-20</div>
+            <div class="stat-label">Proven Focal Relaxation</div>
+            <p class="stat-detail">
+              Resting your gaze 20 feet away for 20 seconds relaxes the eye's ciliary muscle accommodation back to optical infinity, instantly resetting the ocular tear film.
+            </p>
+          </div>
+          <div class="stat-source">
+            <span>Source:</span> <a href="https://www.aao.org/eye-health/tips-prevention/computer-usage" target="_blank" rel="noopener">AAO Clinical Practice Standard</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive Card Simulator -->
+    <section id="simulator" class="interactive-section">
+      <div class="sim-content">
+        <span class="section-tag">Micro-Learning Deck</span>
+        <h2 class="section-title">1,000+ Curated Engineering Cards</h2>
+        <p class="section-desc">
+          Instead of empty downtime, each Farsight break serves a bite-sized architecture card, distributed systems theorem, or legendary quote.
+        </p>
+
+        <!-- Simulated Card Window -->
+        <div class="sim-card-display" id="simCardBox">
+          <div class="sim-category" id="simCategory">DISTRIBUTED SYSTEMS</div>
+          <div class="sim-text" id="simText">
+            "CAP theorem: during a network partition, a system must choose between consistency (linearizable reads) and availability (every live node answers). No partition, no forced choice."
+          </div>
+          <div class="sim-author" id="simAuthor" style="display:none;"></div>
+        </div>
+
+        <div class="sim-controls">
+          <button class="btn-shuffle" onclick="shuffleCard()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/>
+            </svg>
+            Shuffle Next Card
+          </button>
+          <button class="btn-category active" onclick="setCategory('all', this)">All</button>
+          <button class="btn-category" onclick="setCategory('dist', this)">Distributed Systems</button>
+          <button class="btn-category" onclick="setCategory('sys', this)">System Design</button>
+          <button class="btn-category" onclick="setCategory('genai', this)">GenAI & Agents</button>
+          <button class="btn-category" onclick="setCategory('quotes', this)">Tech Quotes</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Engineering Features Grid -->
+    <section id="features">
+      <div class="section-header">
+        <span class="section-tag">Crafted for macOS</span>
+        <h2 class="section-title">Engineered to Respect Your Flow</h2>
+        <p class="section-desc">
+          Most timer apps are battery-draining Electron wrappers. Farsight is built from scratch in Swift with native AppKit subsystems.
+        </p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <h3>0% CPU Idle & 500 Lines</h3>
+          <p>
+            No Node.js, no Chromium runtime, no 300MB memory footprint. Farsight compiles into a tiny native universal binary with zero background battery impact.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🖥️</div>
+          <h3>Multi-Screen Coverage</h3>
+          <p>
+            Dual monitors or ultrawides? Farsight creates borderless overlay windows across all connected displays simultaneously at <code>.screenSaver</code> level, preventing you from cheating.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🧠</div>
+          <h3>Intelligent Sleep & Lock Sensing</h3>
+          <p>
+            Farsight hooks into Darwin distributed notifications. If you step away for coffee or lock your screen for longer than a break length, it resets seamlessly to a fresh cycle when you return.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🪟</div>
+          <h3>MacBook Notch Fallback</h3>
+          <p>
+            Menu bar crowded by other tools? Opening Farsight via Spotlight, Alfred, or Raycast drops a floating menu directly underneath the camera notch so you never lose control.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">⌨️</div>
+          <h3>Emergency Escape</h3>
+          <p>
+            Pushed a bad commit or paged on PagerDuty during break? Tap <kbd>Esc</kbd> to immediately dismiss the overlay and resume work without friction.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🛡️</div>
+          <h3>Local, Private & Offline</h3>
+          <p>
+            No accounts, no analytics, no network permissions requested in <code>Info.plist</code>. Runs 100% locally on your machine forever.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Comparison Table -->
+    <section class="comparison-section">
+      <div class="section-header">
+        <span class="section-tag">Why Farsight?</span>
+        <h2 class="section-title">The Clear Choice for Engineers</h2>
+      </div>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th class="highlight">Farsight</th>
+              <th>Electron Timers</th>
+              <th>Phone / Browser Alarm</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Memory Footprint</td>
+              <td class="highlight check-yes">&lt; 25 MB</td>
+              <td class="check-no">350 MB+</td>
+              <td>Variable</td>
+            </tr>
+            <tr>
+              <td>Multi-Screen Enforced Dimming</td>
+              <td class="highlight check-yes">Yes (All Monitors)</td>
+              <td class="check-no">Often Single Screen</td>
+              <td class="check-no">No</td>
+            </tr>
+            <tr>
+              <td>Engineering Micro-Learning Cards</td>
+              <td class="highlight check-yes">Yes (1,000+ CS Tips)</td>
+              <td class="check-no">No (Blank screen)</td>
+              <td class="check-no">No</td>
+            </tr>
+            <tr>
+              <td>Sleep & Screen Lock Aware</td>
+              <td class="highlight check-yes">Yes (System Hooks)</td>
+              <td class="check-no">Clock Drift / Broken</td>
+              <td class="check-no">No</td>
+            </tr>
+            <tr>
+              <td>Notch-safe Spotlight Reopen</td>
+              <td class="highlight check-yes">Yes</td>
+              <td class="check-no">No</td>
+              <td class="check-no">No</td>
+            </tr>
+            <tr>
+              <td>Zero Telemetry & Offline</td>
+              <td class="highlight check-yes">100% Offline</td>
+              <td class="check-no">Often Tracks Analytics</td>
+              <td class="check-no">Depends</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Quick Install Terminal Section -->
+    <section id="install">
+      <div class="section-header">
+        <span class="section-tag">Install on macOS</span>
+        <h2 class="section-title">Get Running in 10 Seconds</h2>
+        <p class="section-desc">Supports macOS 13 Ventura, Sonoma, Sequoia and newer on Apple Silicon (M1/M2/M3/M4) and Intel.</p>
+      </div>
+
+      <div class="cli-box">
+        <div class="cli-header">
+          <div class="cli-dots">
+            <span class="cli-dot"></span>
+            <span class="cli-dot"></span>
+            <span class="cli-dot"></span>
+          </div>
+          <span class="cli-title">terminal</span>
+        </div>
+        <div class="cli-command">
+          <span>git clone https://github.com/akgarhwal/farsight.git &amp;&amp; cd farsight &amp;&amp; ./build.sh</span>
+          <button class="btn-copy" onclick="copyInstall(this)">Copy</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bottom CTA Banner -->
+    <div class="cta-banner">
+      <h2>Give Your Eyes the Rest They Deserve.</h2>
+      <p>
+        Protect your vision, stay sharp, and master distributed systems cards one break at a time.
+      </p>
+      <div class="hero-actions" style="margin-bottom:0;">
+        <a href="https://github.com/akgarhwal/farsight/releases" class="btn-primary">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          Download Farsight.dmg
+        </a>
+        <a href="https://github.com/akgarhwal/farsight" target="_blank" rel="noopener" class="btn-secondary">
+          ⭐ Star on GitHub
+        </a>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <div class="footer-content">
+        <div>
+          © 2026 <strong>Farsight</strong>. Created by <a href="https://github.com/akgarhwal" target="_blank" rel="noopener" style="color:#C084FC; text-decoration:none; font-weight:600;">Abhinesh (@akgarhwal)</a>.
+        </div>
+        <ul class="footer-links">
+          <li><a href="https://github.com/akgarhwal/farsight">GitHub Repository</a></li>
+          <li><a href="https://github.com/akgarhwal/farsight/blob/main/README.md">Documentation</a></li>
+          <li><a href="#research">Clinical References</a></li>
+        </ul>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    // Preview image tab switching
+    function switchPreview(imgName, btn) {
+      document.querySelectorAll('.preview-tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const img = document.getElementById('main-preview');
+      img.style.opacity = '0';
+      setTimeout(() => {
+        img.src = imgName;
+        img.style.opacity = '1';
+      }, 150);
+    }
+
+    // Interactive Card Simulator Data (Actual JSON card samples from repo)
+    const cardDeck = [
+      {
+        category: "DISTRIBUTED SYSTEMS",
+        text: "CAP theorem: during a network partition, a system must choose between consistency (linearizable reads) and availability (every live node answers). No partition, no forced choice.",
+        author: null
+      },
+      {
+        category: "DISTRIBUTED SYSTEMS",
+        text: "Consistent hashing: nodes and keys hash onto a ring and each key belongs to the next node clockwise, so adding a node moves only ~1/N of keys instead of nearly all of them.",
+        author: null
+      },
+      {
+        category: "DISTRIBUTED SYSTEMS",
+        text: "PACELC theorem: If Partitioned, choose Availability or Consistency; Else, choose Latency or Consistency. Dynamo-style stores are PA/EL; Google Spanner is PC/EC.",
+        author: null
+      },
+      {
+        category: "SYSTEM DESIGN",
+        text: "Write-Ahead Logging (WAL): Before any modification is applied to in-memory pages or B-trees, the intent is appended sequentially to disk, ensuring ACID durability with high write throughput.",
+        author: null
+      },
+      {
+        category: "SYSTEM DESIGN",
+        text: "Bloom Filter: A space-efficient probabilistic data structure that can query whether an element is definitely NOT in a set, or MIGHT be in a set. Zero false negatives guaranteed.",
+        author: null
+      },
+      {
+        category: "GENAI & AI AGENTS",
+        text: "KV Cache: Transformers reuse computed Key and Value vectors for past tokens during autoregressive generation, converting O(N^2) token generation into O(N) memory lookups.",
+        author: null
+      },
+      {
+        category: "GENAI & AI AGENTS",
+        text: "ReAct Pattern: Combining Reasoned thoughts and Action execution allows agents to interleave self-critique with external tool calls before formulating a final answer.",
+        author: null
+      },
+      {
+        category: "TECH QUOTE",
+        text: "Premature optimization is the root of all evil (or at least most of it) in programming.",
+        author: "Donald Knuth"
+      },
+      {
+        category: "TECH QUOTE",
+        text: "Simplicity is prerequisite for reliability.",
+        author: "Edsger W. Dijkstra"
+      }
+    ];
+
+    let currentCategory = 'all';
+
+    function setCategory(cat, btn) {
+      currentCategory = cat;
+      document.querySelectorAll('.btn-category').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      shuffleCard();
+    }
+
+    function shuffleCard() {
+      let filtered = cardDeck;
+      if (currentCategory === 'dist') filtered = cardDeck.filter(c => c.category.includes('DISTRIBUTED'));
+      else if (currentCategory === 'sys') filtered = cardDeck.filter(c => c.category.includes('SYSTEM'));
+      else if (currentCategory === 'genai') filtered = cardDeck.filter(c => c.category.includes('GENAI'));
+      else if (currentCategory === 'quotes') filtered = cardDeck.filter(c => c.category.includes('QUOTE'));
+
+      const choice = filtered[Math.floor(Math.random() * filtered.length)];
+      
+      const box = document.getElementById('simCardBox');
+      box.style.transform = 'scale(0.98)';
+      box.style.opacity = '0.5';
+
+      setTimeout(() => {
+        document.getElementById('simCategory').textContent = choice.category;
+        document.getElementById('simText').textContent = choice.text;
+        const authorEl = document.getElementById('simAuthor');
+        if (choice.author) {
+          authorEl.textContent = "— " + choice.author;
+          authorEl.style.display = "block";
+        } else {
+          authorEl.style.display = "none";
+        }
+        box.style.transform = 'scale(1)';
+        box.style.opacity = '1';
+      }, 150);
+    }
+
+    function copyInstall(btn) {
+      const cmd = "git clone https://github.com/akgarhwal/farsight.git && cd farsight && ./build.sh";
+      navigator.clipboard.writeText(cmd).then(() => {
+        const orig = btn.textContent;
+        btn.textContent = "Copied!";
+        btn.style.background = "#059669";
+        setTimeout(() => {
+          btn.textContent = orig;
+          btn.style.background = "";
+        }, 2000);
+      });
+    }
+  </script>
+</body>
+</html>
